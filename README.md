@@ -9,6 +9,7 @@
 - [React Router]() for routing
 - [React Icons](https://react-icons.github.io/react-icons/) for icons
 - [Styled Components](https://styled-components.com/) for styling
+- [Mantine](https://mantine.dev/) for UI components
 
 `NB: The state managemenet is to decided later when the need arises.`
 
