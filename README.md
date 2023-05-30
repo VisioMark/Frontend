@@ -13,6 +13,9 @@
 
 `NB: The state managemenet is to decided later when the need arises.`
 
+<br/>\
+`Use yarn tauri to start the server`
+
 <br>
 
 # Format to follow when pushing to the repo 📌
