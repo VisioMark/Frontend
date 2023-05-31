@@ -1,5 +1,7 @@
+import General from './general';
+
 const SignUp = () => {
-  return <>fsdfg</>;
+  return <General>fgdhf</General>;
 };
 
 export default SignUp;
