@@ -21,7 +21,7 @@ export const Title = styled.h1`
 `;
 
 export const RightContainer = styled.div`
-  padding: 7rem 0;
+  padding: 6rem 0;
   width: 50%;
 `;
 
@@ -33,7 +33,7 @@ export const InputWrapper = styled.div`
   gap: 2rem;
 `;
 
-export const GenicTextInput = styled(TextInput)`
+export const GenericTextInput = styled(TextInput)`
   & .mantine-inputWrapper {
     background-color: 'white';
   }

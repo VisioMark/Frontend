@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { invoke } from '@tauri-apps/api/tauri';
-import './App.css';
 import routing from './routes';
 
 function App() {
