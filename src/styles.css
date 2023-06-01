@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: Rubik;
-  src: url(/public/fonts/Rubik_Puddles/RubikPuddles-Regular.ttf);
+  src: url(/fonts/Rubik_Puddles/RubikPuddles-Regular.ttf);
 }
 
 :root {
@@ -13,6 +13,8 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+  max-width: 1500px;
+  margin: auto;
 
   color: #fff;
   background-color: #121212;

@@ -6,11 +6,11 @@ export const THEME = {
     },
 
     text: {
-      primary: '#23B5D3',
+      primary: '#fff',
     },
 
     button: {
-      primary: '#fff',
+      primary: '#23B5D3',
     },
   },
 };

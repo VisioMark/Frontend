@@ -1,16 +1,26 @@
-import { TextInput } from '@mantine/core';
-import { FiBold } from 'react-icons/fi';
-import { GenicTextInput } from '../../auth-pages/styles';
+import { GenericTextInput } from '../../auth-pages/styles';
+import { THEME } from '../../../appTheme';
 
 type GenericInputProps = {
   placeholder: string;
   icon: React.ReactNode;
+  label: string;
 };
 
-const GenericInput = ({ placeholder, icon }: GenericInputProps) => {
+const GenericInput = ({ placeholder, icon, label }: GenericInputProps) => {
   return (
     <div>
-      <GenicTextInput placeholder={placeholder} icon={icon} size="lg" />
+      <GenericTextInput
+        placeholder={placeholder}
+        icon={icon}
+        label={label}
+        withAsterisk
+        sx={{
+          label: {
+            color: THEME.colors.text.primary,
+          },
+        }}
+      />
     </div>
   );
 };
