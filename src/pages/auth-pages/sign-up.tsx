@@ -47,7 +47,7 @@ const SignUp = () => {
           description="Password must include at least one letter, number and special character"
           withAsterisk
         />
-        <GenericBtn title="Submit" />
+        <GenericBtn title="Create an account" />
       </InputWrapper>
     </General>
   );
