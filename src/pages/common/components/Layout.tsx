@@ -7,6 +7,7 @@ import {
   Navigation,
   SidebarContainer,
   Title,
+  UserDetails,
 } from './layoutStyles';
 import { Constants } from '../../../utils/constants';
 import { BiHome } from 'react-icons/bi';
@@ -22,24 +23,30 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Title>visioMark</Title>
         </LogoWrapper>
         <Navigation>
-          <NavLinks to={Constants.PATHS.signUp} aria-label="link to home">
+          <NavLinks to={'/'} aria-label="link to home">
             <BiHome size={20} />
             Home
           </NavLinks>
 
-          <NavLinks to={Constants.PATHS.signUp} aria-label="link to home">
+          <NavLinks to={'/allfiles'} aria-label="shows all the files">
             <CgFileDocument size={20} />
             All files
           </NavLinks>
 
-          <NavLinks to={Constants.PATHS.signUp} aria-label="link to home">
+          <NavLinks to={'/settings'} aria-label="settings of the user">
             <FiSettings size={20} />
             Settings
           </NavLinks>
         </Navigation>
       </SidebarContainer>
 
-      <ContentContainer>{children}</ContentContainer>
+      <ContentContainer>
+        <UserDetails>
+          <img src="/src/assets/user.svg" width={40} alt="user" />
+          <p>John Doe</p>
+        </UserDetails>
+        {children}
+      </ContentContainer>
     </Dashboardcontainer>
   );
 };

@@ -4,5 +4,7 @@ export const Constants = {
     home: '/',
     signUp: '/signup',
     signIn: '/signin',
+    settings: '/settings',
+    allfiles: '/allfiles',
   },
 };

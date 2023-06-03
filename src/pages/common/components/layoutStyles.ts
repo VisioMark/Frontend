@@ -1,20 +1,23 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { THEME } from '../../../appTheme';
 
 export const Dashboardcontainer = styled.div`
   display: flex;
+  height: 100vh;
 `;
 
 export const SidebarContainer = styled.div`
-  padding: 0 1.5rem;
+  padding: 0 0.1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 30%;
+  width: 25rem;
 `;
 
 export const LogoWrapper = styled.div`
   display: flex;
+  padding: 0.5rem 1rem;
 `;
 
 export const Title = styled.p`
@@ -34,11 +37,34 @@ export const NavLinks = styled(NavLink)`
   align-items: center;
   text-decoration: none;
   font-size: 14px;
+  padding: 0.5rem 1rem;
+
+  &.active {
+    background-color: ${THEME.colors.background.jet};
+    border-radius: 10px;
+
+    border-left: 3px solid ${THEME.colors.button.primary};
+  }
 `;
 
 export const ContentContainer = styled.div`
-  background-color: red;
+  background: linear-gradient(
+    45deg,
+    ${THEME.colors.background.jet},
+    ${THEME.colors.background.primary}
+  );
   width: 100%;
-  border-radius: 10px 0 0 0;
-  height: 100vh;
+  border-radius: 20px 0 0 0;
+  height: auto;
+  padding: 1.5rem;
+`;
+
+export const UserDetails = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  background-color: ${THEME.colors.background.jet};
 `;
