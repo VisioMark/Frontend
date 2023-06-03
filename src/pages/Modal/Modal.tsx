@@ -1,5 +1,4 @@
 import { Modal, createStyles } from '@mantine/core';
-import { ModalContainer } from './styles';
 import { THEME } from '../../appTheme';
 
 const useStyles = createStyles((theme) => ({

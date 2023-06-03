@@ -1,5 +1,5 @@
 import { THEME } from '../../appTheme';
-import ModalComp from '../Modal/modal';
+import ModalComp from '../Modal/Modal';
 import Layout from '../common/components/Layout';
 import GenericBtn from '../common/components/button';
 import { RequestBtn } from './styles';
