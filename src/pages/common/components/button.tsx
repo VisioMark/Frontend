@@ -3,12 +3,12 @@ import { THEME } from '../../../appTheme';
 
 const GenericBtn = ({
   title,
-  styles,
   sx,
+  onClick,
 }: {
   title: string;
-  styles?: React.CSSProperties;
   sx?: Sx | Sx[];
+  onClick?: () => void;
 }) => {
   return (
     <Button
@@ -20,6 +20,7 @@ const GenericBtn = ({
         },
         ...packSx(sx),
       ]}
+      onClick={onClick}
     >
       {title}
     </Button>
