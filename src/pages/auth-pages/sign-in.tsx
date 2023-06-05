@@ -1,52 +1,36 @@
+import GenericInput from '../common/components/input';
 import General from './general';
-import React from 'react';
-import { Paper } from '@mantine/core';
-import { TextInput } from '@mantine/core';
+import { AiOutlineMail } from 'react-icons/ai';
+import { FormTitle, InputWrapper } from './styles';
 import { PasswordInput } from '@mantine/core';
-import { Checkbox } from '@mantine/core';
-import { Button } from '@mantine/core';
-import {
-  IconAt,
-  IconKey,
-  IconKeyframe,
-  IconLock,
-  IconMail,
-  IconUser,
-} from '@tabler/icons-react';
-import { MantineProvider } from '@mantine/core';
+import { THEME } from '../../appTheme';
+import GenericBtn from '../common/components/button';
 
 const SignIn = () => {
   return (
-    <MantineProvider
-      theme={{ colorScheme: 'dark' }}
-      withGlobalStyles
-      withNormalizeCSS
-    >
-      <General>
-        <Paper p="lg" style={{ paddingTop: 150 }}>
-          <p>
-            <b style={{ fontSize: 25 }}>Login</b>
-          </p>
-          <TextInput
-            placeholder="E-mail"
-            //label="Username"
-            //description="filling with your user name"
-            //error="wrong information"
-            //withAsterisk
-            icon={<IconMail size="1rem" />}
-          />
-          <br />
-          <PasswordInput
-            //label="Your password"
-            placeholder="Password"
-            icon={<IconKey size="1rem" />}
-          />
-          <Button fullWidth mt="xl" size="md">
-            Login
-          </Button>
-        </Paper>
-      </General>
-    </MantineProvider>
+    <General>
+      <FormTitle>
+        <p>Sign In</p>
+      </FormTitle>
+
+      <InputWrapper>
+        <GenericInput
+          placeholder="someone@gmail.com "
+          label="Email"
+          icon={<AiOutlineMail />}
+        />
+        <PasswordInput
+          placeholder="Password"
+          label="Password"
+          sx={{
+            label: {
+              color: THEME.colors.text.primary,
+            },
+          }}
+        />
+        <GenericBtn title="Sign In" />
+      </InputWrapper>
+    </General>
   );
 };
 
