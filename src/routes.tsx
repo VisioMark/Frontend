@@ -5,6 +5,7 @@ import SignUp from './pages/auth-pages/sign-up';
 import Dashboard from './pages/dashboard/dashboard';
 import AllFiles from './pages/all-files/AllFiles';
 import Settings from './pages/settings/Settings';
+import SignIn from './pages/auth-pages/sign-in';
 
 const ROUTE = Constants.PATHS;
 
@@ -24,6 +25,14 @@ const routing = createBrowserRouter([
   {
     path: ROUTE.settings,
     element: <Settings />,
+  },
+  {
+    path: ROUTE.settings,
+    element: <Settings />,
+  },
+  {
+    path: ROUTE.signIn,
+    element: <SignIn />,
   },
 ]);
 
