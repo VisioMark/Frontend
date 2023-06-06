@@ -16,36 +16,26 @@ const SignUp = () => {
 
       <InputWrapper>
         <GenericInput
+          textInput
           placeholder="Username "
           icon={<AiOutlineUser />}
           label={'Username'}
         />
         <GenericInput
+          textInput
           placeholder="someone@gmail.com "
           label="Email"
           icon={<AiOutlineMail />}
         />
-        <PasswordInput
+        <GenericInput
           placeholder="Password"
           label="Password"
-          sx={{
-            label: {
-              color: THEME.colors.text.primary,
-            },
-          }}
           description="Password must include at least one letter, number and special character"
-          withAsterisk
         />
-        <PasswordInput
+        <GenericInput
           placeholder="confirm your password"
           label="Confirm Password"
-          sx={{
-            label: {
-              color: THEME.colors.text.primary,
-            },
-          }}
           description="Password must include at least one letter, number and special character"
-          withAsterisk
         />
         <GenericBtn title="Create an account" />
       </InputWrapper>
