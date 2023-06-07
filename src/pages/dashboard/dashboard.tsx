@@ -11,7 +11,9 @@ const Dashboard = () => {
   return (
     <Layout>
       <RequestBtn>
-        <ModalComp opened={opened} close={close} />
+        <ModalComp opened={opened} close={close}>
+          {<>hello</>}
+        </ModalComp>
         <GenericBtn
           title="Make a Request"
           sx={{
