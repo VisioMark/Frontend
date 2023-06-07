@@ -1,6 +1,7 @@
 import { GenericTextInput } from '../../auth-pages/styles';
 import { THEME } from '../../../appTheme';
 import { PasswordInput } from '@mantine/core';
+import { createFormContext } from '@mantine/form';
 
 type GenericInputProps = {
   placeholder: string;
@@ -20,6 +21,8 @@ const sx = {
   },
 };
 
+const [useFormContext] = createFormContext();
+
 const GenericInput = ({
   placeholder,
   icon,
@@ -27,6 +30,7 @@ const GenericInput = ({
   textInput,
   description,
 }: GenericInputProps) => {
+  const {} = useFormContext();
   return (
     <div>
       {textInput ? (

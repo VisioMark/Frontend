@@ -27,7 +27,7 @@ export const RightContainer = styled.div`
 
 export const FormTitle = styled.div``;
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: 2rem;
