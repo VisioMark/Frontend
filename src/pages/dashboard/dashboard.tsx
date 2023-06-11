@@ -1,5 +1,5 @@
 import { THEME } from '../../appTheme';
-import ModalComp from '../Modal/Modal';
+import ModalComp from '../common/Modal/Modal';
 import SharedCard from '../common/components/Card/card';
 import Layout from '../common/components/Layout';
 import GenericBtn from '../common/components/button';
@@ -12,7 +12,9 @@ const Dashboard = () => {
   return (
     <Layout>
       <RequestBtn>
-        <ModalComp opened={opened} close={close} />
+        <ModalComp opened={opened} close={close}>
+          {<>Hello</>}
+        </ModalComp>
         <GenericBtn
           title="Make a Request"
           sx={{

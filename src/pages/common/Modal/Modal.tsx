@@ -1,5 +1,5 @@
 import { Modal, createStyles } from '@mantine/core';
-import { THEME } from '../../appTheme';
+import { THEME } from '../../../appTheme';
 
 const useStyles = createStyles((theme) => ({
   modal: {
@@ -17,9 +17,11 @@ const useStyles = createStyles((theme) => ({
 const ModalComp = ({
   opened,
   close,
+  children,
 }: {
   opened: boolean;
   close: () => void;
+  children: React.ReactNode;
 }) => {
   const { classes } = useStyles();
   return (
@@ -31,7 +33,7 @@ const ModalComp = ({
         className={classes.modal}
         size={'lg'}
       >
-        <p>Modal</p>
+        {children}
       </Modal>
     </>
   );
