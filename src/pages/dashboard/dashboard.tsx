@@ -1,12 +1,12 @@
 import { THEME } from '../../appTheme';
 import ModalComp from '../common/Modal/Modal';
+import SharedCard from '../common/components/Card/card';
 import Layout from '../common/components/Layout';
 import GenericBtn from '../common/components/button';
-import { RequestBtn } from './styles';
-import { useDisclosure } from '@mantine/hooks';
 import GenericInput from '../common/components/input';
 import { LogoWrapper } from '../common/components/layoutStyles';
-import { Title } from '../common/components/layoutStyles';
+import { RFContent, RecentFiles, RequestBtn, Title } from './styles';
+import { useDisclosure } from '@mantine/hooks';
 
 const Dashboard = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -55,7 +55,13 @@ const Dashboard = () => {
           onClick={open}
         />
       </RequestBtn>
-      Recent Files
+
+      <RecentFiles>
+        <Title>RECENT FILES</Title>
+        <RFContent>
+          <SharedCard />
+        </RFContent>
+      </RecentFiles>
     </Layout>
   );
 };

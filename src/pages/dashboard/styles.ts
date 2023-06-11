@@ -10,3 +10,19 @@ export const RequestBtn = styled.div`
   margin-top: 0.4rem;
   border-radius: 10px;
 `;
+
+export const RecentFiles = styled.div`
+  margin-top: 2rem;
+`;
+
+export const Title = styled.p`
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
+`;
+
+export const RFContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
