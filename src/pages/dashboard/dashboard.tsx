@@ -5,7 +5,13 @@ import Layout from '../common/components/Layout';
 import GenericBtn from '../common/components/button';
 import GenericInput from '../common/components/input';
 import { LogoWrapper } from '../common/components/layoutStyles';
-import { RFContent, RecentFiles, RequestBtn, Title } from './styles';
+import {
+  ModalInputs,
+  RFContent,
+  RecentFiles,
+  RequestBtn,
+  Title,
+} from './styles';
 import { useDisclosure } from '@mantine/hooks';
 
 const Dashboard = () => {
@@ -22,15 +28,27 @@ const Dashboard = () => {
             </LogoWrapper>
           }
 
-          {<GenericInput placeholder="" label="Lecturer name" icon />}
+          {
+            <ModalInputs>
+              <GenericInput placeholder="" label="Course code" textInput icon />
 
-          {<GenericInput placeholder="" label="Course code" icon />}
+              <GenericInput
+                placeholder=""
+                label="Department code"
+                textInput
+                icon
+              />
 
-          {<GenericInput placeholder="" label="Department code" icon />}
+              <GenericInput placeholder="" label="Year" textInput icon />
 
-          {<GenericInput placeholder="" label="Year" icon />}
-
-          {<GenericInput placeholder="" label="Number of questions" icon />}
+              <GenericInput
+                placeholder=""
+                label="Number of questions"
+                textInput
+                icon
+              />
+            </ModalInputs>
+          }
           <br />
           {
             <GenericBtn

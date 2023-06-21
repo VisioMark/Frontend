@@ -26,3 +26,9 @@ export const RFContent = styled.div`
   flex-direction: column;
   gap: 1rem;
 `;
+
+export const ModalInputs = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
