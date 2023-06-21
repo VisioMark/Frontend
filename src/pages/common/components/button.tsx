@@ -20,6 +20,7 @@ const GenericBtn = ({
         },
         ...packSx(sx),
       ]}
+      type="submit"
       onClick={onClick}
     >
       {title}
