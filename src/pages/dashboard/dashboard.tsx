@@ -30,19 +30,33 @@ const Dashboard = () => {
 
           {
             <ModalInputs>
-              <GenericInput placeholder="" label="Course code" textInput icon />
+              <GenericInput
+                placeholder=""
+                val_name="course_code"
+                label="Course code"
+                textInput
+                icon
+              />
 
               <GenericInput
+                val_name="department_code"
                 placeholder=""
                 label="Department code"
                 textInput
                 icon
               />
 
-              <GenericInput placeholder="" label="Year" textInput icon />
+              <GenericInput
+                val_name="year"
+                placeholder=""
+                label="Year"
+                textInput
+                icon
+              />
 
               <GenericInput
                 placeholder=""
+                val_name="number_of_questions"
                 label="Number of questions"
                 textInput
                 icon
