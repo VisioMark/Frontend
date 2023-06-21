@@ -4,8 +4,7 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { FormTitle, InputWrapper } from './styles';
 import GenericBtn from '../common/components/button';
 import { z } from 'zod';
-import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from '@mantine/form';
 import { UserFormProvider, useUserForm } from '../common/form-context';
 
 const schema = z.object({
@@ -14,21 +13,15 @@ const schema = z.object({
 });
 
 type SignInForm = z.infer<typeof schema>;
-// const methods = useForm<SignInForm>({
-//   resolver: zodResolver(schema),
-// });
-
-const onSubmit = (data: SignInForm) => {
-  console.log(data);
-};
 
 // const form = useform;
 
 const SignIn = () => {
   const form = useUserForm({
+    validate: zodResolver(schema),
     initialValues: {
-      Email: '',
-      Password: '',
+      email: '',
+      password: '',
     },
   });
   return (
@@ -37,18 +30,23 @@ const SignIn = () => {
         <p>Sign In</p>
       </FormTitle>
 
-      <InputWrapper>
-        <UserFormProvider form={form}>
+      <UserFormProvider form={form}>
+        <InputWrapper onSubmit={form.onSubmit((values) => console.log(values))}>
           <GenericInput
+            val_name="email"
             placeholder="someone@gmail.com "
             textInput
             label="Email"
             icon={<AiOutlineMail />}
           />
-          <GenericInput placeholder="Password" label="Password" />
+          <GenericInput
+            placeholder="Password"
+            val_name="password"
+            label="Password"
+          />
           <GenericBtn title="Sign In" />
-        </UserFormProvider>
-      </InputWrapper>
+        </InputWrapper>
+      </UserFormProvider>
     </General>
   );
 };
