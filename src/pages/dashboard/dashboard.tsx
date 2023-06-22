@@ -20,7 +20,7 @@ import { zodResolver } from '@mantine/form';
 const schema = z.object({
   course_code: z.string().min(6).max(6),
   department_code: z.string().min(3).max(3),
-  year: z.string().datetime(),
+  year: z.number().min(4).max(4).gte(2021),
   number_of_questions: z.number().max(200),
 });
 
