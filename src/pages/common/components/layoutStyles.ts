@@ -2,6 +2,16 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { THEME } from '../../../appTheme';
 
+export const sx = {
+  label: {
+    color: THEME.colors.text.primary,
+  },
+  input: {
+    background: THEME.colors.background.jet,
+    color: THEME.colors.text.primary,
+  },
+};
+
 export const Dashboardcontainer = styled.div`
   display: flex;
   height: 100vh;

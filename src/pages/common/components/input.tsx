@@ -2,25 +2,8 @@ import { GenericTextInput } from '../../auth-pages/styles';
 import { THEME } from '../../../appTheme';
 import { PasswordInput, TextInput } from '@mantine/core';
 import { useUserFormContext } from '../form-context';
-
-type GenericInputProps = {
-  placeholder: string;
-  icon?: React.ReactNode;
-  label: string;
-  textInput?: boolean;
-  description?: string;
-  val_name: string;
-};
-
-const sx = {
-  label: {
-    color: THEME.colors.text.primary,
-  },
-  input: {
-    background: THEME.colors.background.jet,
-    color: THEME.colors.text.primary,
-  },
-};
+import { GenericInputProps } from './types';
+import { sx } from './layoutStyles';
 
 const GenericInput = ({
   placeholder,
@@ -28,6 +11,7 @@ const GenericInput = ({
   label,
   textInput,
   val_name,
+  type,
   description,
 }: GenericInputProps) => {
   const form = useUserFormContext();
@@ -40,6 +24,7 @@ const GenericInput = ({
           icon={icon}
           label={label}
           withAsterisk
+          type={type}
           sx={sx}
         />
       ) : (

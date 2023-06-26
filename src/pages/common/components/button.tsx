@@ -5,10 +5,12 @@ const GenericBtn = ({
   title,
   sx,
   onClick,
+  type,
 }: {
   title: string;
   sx?: Sx | Sx[];
   onClick?: () => void;
+  type: 'submit' | 'button';
 }) => {
   return (
     <Button
@@ -20,7 +22,7 @@ const GenericBtn = ({
         },
         ...packSx(sx),
       ]}
-      type="submit"
+      type={type}
       onClick={onClick}
     >
       {title}
