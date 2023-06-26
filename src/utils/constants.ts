@@ -6,5 +6,6 @@ export const Constants = {
     signIn: '/signin',
     settings: '/settings',
     allfiles: '/allfiles',
+    signOut: '/signout',
   },
 };

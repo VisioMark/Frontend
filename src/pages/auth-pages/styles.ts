@@ -42,3 +42,11 @@ export const GenericTextInput = styled(TextInput)`
     color: 'white';
   }
 `;
+export const CenteredContainer = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  width: 40rem;
+  background-color: #404040;
+  border: 2px solid #404040;
+  border-radius: 25px;
+`;

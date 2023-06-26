@@ -11,7 +11,7 @@ import {
 import { Constants } from '../../../utils/constants';
 import { BiHome } from 'react-icons/bi';
 import { CgFileDocument } from 'react-icons/cg';
-import { FiSettings } from 'react-icons/fi';
+import { FiLogOut, FiSettings, FiUpload } from 'react-icons/fi';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -35,6 +35,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <NavLinks to={'/settings'} aria-label="settings of the user">
             <FiSettings size={20} />
             Settings
+          </NavLinks>
+
+          <NavLinks to={'/signout'} aria-label="sign out page">
+            <FiLogOut size={20} />
+            Signout
           </NavLinks>
         </Navigation>
       </SidebarContainer>

@@ -6,7 +6,8 @@ import Dashboard from './pages/dashboard/dashboard';
 import AllFiles from './pages/all-files/AllFiles';
 import Settings from './pages/settings/Settings';
 import SignIn from './pages/auth-pages/sign-in';
-
+import SignOut from './pages/auth-pages/sign-out';
+import Upload from './pages/upload/upload';
 const ROUTE = Constants.PATHS;
 
 const routing = createBrowserRouter([
@@ -33,6 +34,10 @@ const routing = createBrowserRouter([
   {
     path: ROUTE.signIn,
     element: <SignIn />,
+  },
+  {
+    path: ROUTE.signOut,
+    element: <SignOut />,
   },
 ]);
 
