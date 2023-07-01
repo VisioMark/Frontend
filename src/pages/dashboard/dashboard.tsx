@@ -27,6 +27,7 @@ const Dashboard = () => {
       <RequestBtn>
         <Modalforms open={opened} close={close} />
         <GenericBtn
+          type="button"
           title="Make a Request"
           sx={{
             height: '7rem',

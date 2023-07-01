@@ -15,6 +15,7 @@ const GenericInput = ({
   description,
 }: GenericInputProps) => {
   const form = useUserFormContext();
+
   return (
     <div>
       {textInput ? (
