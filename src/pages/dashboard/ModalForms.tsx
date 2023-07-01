@@ -2,7 +2,7 @@ import { z } from 'zod';
 import ModalComp from '../common/Modal/Modal';
 import { LogoWrapper } from '../common/components/layoutStyles';
 import { UserFormProvider, useUserForm } from '../common/form-context';
-import { zodResolver } from '@mantine/form';
+import { UseFormReturnType, zodResolver } from '@mantine/form';
 import { ModalInputs, Title } from './styles';
 import GenericInput from '../common/components/input';
 import GenericBtn from '../common/components/button';
@@ -42,22 +42,18 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
     },
   });
 
-  const [all, setAll] = useState({});
-
-  const [clicked, setClicked] = useState(false);
-  console.log('🚀 ~ file: index.tsx:15 ~ clicked:', clicked);
+  const [all, setAll] = useState<{ [key: number]: string }>({});
 
   function DisplayDivMultipleTimes() {
     const divs = [];
 
+    // @ts-ignore
     for (let i = 1; i <= parseInt(form.values['number_of_questions']); i++) {
       divs.push(
         <MasterKeyPage
           key={i}
           all={all}
           setAll={setAll}
-          clicked={clicked}
-          setClicked={setClicked}
           index={i}
           question_number={i}
         />

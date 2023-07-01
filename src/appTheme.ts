@@ -12,6 +12,7 @@ export const THEME = {
 
     button: {
       primary: '#23B5D3',
+      midnight_green: '#0E4B58',
     },
   },
 };

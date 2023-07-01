@@ -1,27 +1,20 @@
 import { Flex, Group } from '@mantine/core';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { THEME } from '../../appTheme';
 
 const MasterKeyPage = ({
   question_number,
   all,
   setAll,
-  clicked,
-  setClicked,
   index,
 }: {
   question_number: number;
   setAll: React.Dispatch<React.SetStateAction<{}>>;
-  all: object;
-  clicked: boolean;
+  all: { [key: number]: string };
   index: number;
-  setClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const changeColor = () => {
-    if (index === question_number) {
-      setClicked(!clicked);
-    }
-  };
+  const [clicked, setClicked] = useState(false);
 
   return (
     <Flex
@@ -41,40 +34,49 @@ const MasterKeyPage = ({
       <QuestionNumberStyles>{question_number}. </QuestionNumberStyles>
       <Group spacing={'xl'}>
         <ChoiceStyles
-          index={index}
-          question_number={question_number}
-          clicked={clicked}
+          clicked={all[question_number] === 'A'}
           onClick={() => {
             setAll({ ...all, [question_number]: 'A' });
-            changeColor();
-            console.log(index);
+            setClicked(!clicked);
           }}
         >
           A
         </ChoiceStyles>
         <ChoiceStyles
-          // clicked={clicked}
+          clicked={all[question_number] === 'B'}
           onClick={() => {
             setAll({ ...all, [question_number]: 'B' });
-            // setClicked(!clicked);
-            console.log('second one');
+            setClicked(true);
           }}
         >
           B
         </ChoiceStyles>
         <ChoiceStyles
-          // clicked={clicked}
+          clicked={all[question_number] === 'C'}
           onClick={() => {
             setAll({ ...all, [question_number]: 'C' });
-            // setClicked(!clicked);
+            setClicked(true);
           }}
         >
           C
         </ChoiceStyles>
         <ChoiceStyles
-          onClick={() => setAll({ ...all, [question_number]: 'D' })}
+          clicked={all[question_number] === 'D'}
+          onClick={() => {
+            setAll({ ...all, [question_number]: 'D' });
+            setClicked(true);
+          }}
         >
           D
+        </ChoiceStyles>
+        <ChoiceStyles
+          clicked={all[question_number] === 'E'}
+          onClick={() => {
+            setAll({ ...all, [question_number]: 'E' });
+            setClicked(true);
+          }}
+        >
+          E
         </ChoiceStyles>
       </Group>
     </Flex>
@@ -90,7 +92,7 @@ const ChoiceStyles = styled.div<{
   onClick?: () => void;
 }>`
   background: ${({ clicked, index, question_number }) =>
-    clicked ? (index === question_number ? 'red' : 'blue') : 'blue'};
+    clicked ? THEME.colors.button.primary : THEME.colors.button.midnight_green};
   width: 3rem;
   height: 3rem;
   display: flex;
