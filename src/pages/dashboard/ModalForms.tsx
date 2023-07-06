@@ -13,36 +13,14 @@ import { dialog } from '@tauri-apps/api';
 import { Constants } from '../../utils/constants';
 import { Group, Stepper } from '@mantine/core';
 import MasterKeyPage from '../master-key';
-
-const schema = z.object({
-  course_code: z.string().min(5).toUpperCase(),
-  department_code: z
-    .string({
-      required_error: 'Error',
-      invalid_type_error: 'Should be a number',
-    })
-    .min(3, { message: 'Department code must be 3 digits' })
-    .max(3),
-  year: z.string().min(3).max(3),
-  number_of_questions: z.string().max(200),
-  academic_year: z.string().min(3),
-  lecturer_name: z.string().min(3),
-});
+import { schema } from './schema';
+import { useMutation } from 'react-query';
 
 const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
-  const form = useUserForm({
-    validate: zodResolver(schema),
-    initialValues: {
-      course_code: '',
-      department_code: '',
-      year: '',
-      number_of_questions: '',
-      academic_year: '',
-      lecturer_name: '',
-    },
-  });
-
   const [all, setAll] = useState<{ [key: number]: string }>({});
+  console.log('🚀 ~ file: ModalForms.tsx:20 ~ Modalforms ~ all:', all);
+  const [selectedFolder, setSelectedFolder] = useState<string | string[]>('');
+  const [active, setActive] = useState(1);
 
   function DisplayDivMultipleTimes() {
     const divs = [];
@@ -63,9 +41,6 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
     return <>{divs}</>;
   }
 
-  const [selectedFolder, setSelectedFolder] = useState<string | string[]>('');
-
-  const [active, setActive] = useState(1);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
@@ -83,6 +58,34 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
       setSelectedFolder(result);
     }
   };
+
+  const form: UseFormReturnType<unknown, (values: unknown) => typeof schema> =
+    useUserForm({
+      validate: zodResolver(schema),
+      initialValues: {
+        course_code: '',
+        department_code: '',
+        year: '',
+        number_of_questions: '',
+        academic_year: '',
+        lecturer_name: '',
+      },
+    });
+
+  const mutate = useMutation({
+    mutationFn: async (data: { [key: string]: string }) => {
+      console.log('🚀 ~ file: ModalForms.tsx:77 ~ mutationFn: ~ data:', {
+        image_dir: selectedFolder,
+        no_of_questios: data['number_of_questions'],
+        master_key: { ...all },
+      });
+      await fetch('http://localhost:3000/api/scan', {
+        method: 'POST',
+        body: JSON.stringify({ ...data, ...all }),
+      });
+    },
+  });
+
   return (
     <>
       <ModalComp opened={open} close={close}>
@@ -92,7 +95,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
         </LogoWrapper>
 
         <UserFormProvider form={form}>
-          <form onSubmit={form.onSubmit((value) => console.log(value))}>
+          <form onSubmit={form.onSubmit((value) => mutate.mutate(value))}>
             <Stepper active={active} onStepClick={setActive}>
               <Stepper.Step label="Step 1">
                 <ModalInputs>
@@ -156,18 +159,17 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
                       background: `${THEME.colors.button.primary}`,
                     }}
                   />
+                  {selectedFolder && (
+                    <div>
+                      <p>{selectedFolder}</p>
+                    </div>
+                  )}
                 </ModalInputs>
               </Stepper.Step>
               <Stepper.Completed>
                 <DisplayDivMultipleTimes />
               </Stepper.Completed>
             </Stepper>
-
-            {selectedFolder && (
-              <div>
-                <p>{selectedFolder}</p>
-              </div>
-            )}
 
             <br />
 
@@ -187,6 +189,17 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
                 title="Next"
                 type="button"
                 onClick={nextStep}
+                sx={{
+                  height: '2rem',
+                  width: '5rem',
+                  fontSize: '1rem',
+                  background: `${THEME.colors.button.primary}`,
+                }}
+              />
+
+              <GenericBtn
+                title="Done"
+                type="submit"
                 sx={{
                   height: '2rem',
                   width: '5rem',
