@@ -95,6 +95,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
         </LogoWrapper>
 
         <UserFormProvider form={form}>
+          {/* @ts-ignore */}
           <form onSubmit={form.onSubmit((value) => mutate.mutate(value))}>
             <Stepper active={active} onStepClick={setActive}>
               <Stepper.Step label="Step 1">
