@@ -18,7 +18,6 @@ import { useMutation } from 'react-query';
 
 const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
   const [all, setAll] = useState<{ [key: number]: string }>({});
-  console.log('🚀 ~ file: ModalForms.tsx:20 ~ Modalforms ~ all:', all);
   const [selectedFolder, setSelectedFolder] = useState<string | string[]>('');
   const [active, setActive] = useState(1);
 
@@ -76,13 +75,27 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
     mutationFn: async (data: { [key: string]: string }) => {
       console.log('🚀 ~ file: ModalForms.tsx:77 ~ mutationFn: ~ data:', {
         image_dir: selectedFolder,
-        no_of_questios: data['number_of_questions'],
-        master_key: { ...all },
+        no_of_questions: data['number_of_questions'],
       });
-      await fetch('http://localhost:3000/api/scan', {
+      await fetch(`${Constants.API_URL}`, {
         method: 'POST',
-        body: JSON.stringify({ ...data, ...all }),
-      });
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image_dir: selectedFolder,
+          no_of_questions: data['number_of_questions'],
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
+    },
+    onSuccess: (data) => {
+      console.log('success');
+    },
+    onError: (error) => {
+      console.log('Error', error);
     },
   });
 

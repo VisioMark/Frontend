@@ -1,5 +1,5 @@
 export const Constants = {
-  API_URL: 'https://api.github.com',
+  API_URL: 'http://127.0.0.1:8000/predict',
   PATHS: {
     home: '/',
     signUp: '/signup',
