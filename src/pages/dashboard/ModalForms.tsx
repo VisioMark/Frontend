@@ -19,7 +19,8 @@ import { useMutation } from 'react-query';
 const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
   const [all, setAll] = useState<{ [key: number]: string }>({});
   const [selectedFolder, setSelectedFolder] = useState<string | string[]>('');
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
+  const [response, setResponse] = useState<any>([]);
 
   function DisplayDivMultipleTimes() {
     const divs = [];
@@ -41,7 +42,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
   }
 
   const nextStep = () =>
-    setActive((current) => (current < 3 ? current + 1 : current));
+    setActive((current) => (current < 2 ? current + 1 : current));
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
@@ -53,7 +54,6 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
     });
 
     if (result) {
-      console.log(result);
       setSelectedFolder(result);
     }
   };
@@ -73,10 +73,6 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
 
   const mutate = useMutation({
     mutationFn: async (data: { [key: string]: string }) => {
-      console.log('🚀 ~ file: ModalForms.tsx:77 ~ mutationFn: ~ data:', {
-        image_dir: selectedFolder,
-        no_of_questions: data['number_of_questions'],
-      });
       await fetch(`${Constants.API_URL}`, {
         method: 'POST',
         headers: {
@@ -85,10 +81,13 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
         body: JSON.stringify({
           image_dir: selectedFolder,
           no_of_questions: data['number_of_questions'],
+          master_key: { ...all },
         }),
       })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => setResponse(data))
         .catch((err) => console.log(err));
     },
     onSuccess: (data) => {
@@ -199,28 +198,32 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
                   background: `${THEME.colors.button.primary}`,
                 }}
               />
-              <GenericBtn
-                title="Next"
-                type="button"
-                onClick={nextStep}
-                sx={{
-                  height: '2rem',
-                  width: '5rem',
-                  fontSize: '1rem',
-                  background: `${THEME.colors.button.primary}`,
-                }}
-              />
+              {active != 2 ? (
+                <GenericBtn
+                  title="Next"
+                  type="button"
+                  onClick={nextStep}
+                  sx={{
+                    height: '2rem',
+                    width: '5rem',
+                    fontSize: '1rem',
+                    background: `${THEME.colors.button.primary}`,
+                  }}
+                />
+              ) : null}
 
-              <GenericBtn
-                title="Done"
-                type="submit"
-                sx={{
-                  height: '2rem',
-                  width: '5rem',
-                  fontSize: '1rem',
-                  background: `${THEME.colors.button.primary}`,
-                }}
-              />
+              {active == 2 ? (
+                <GenericBtn
+                  title="Done"
+                  type="submit"
+                  sx={{
+                    height: '2rem',
+                    width: '5rem',
+                    fontSize: '1rem',
+                    background: `${THEME.colors.button.primary}`,
+                  }}
+                />
+              ) : null}
             </Group>
           </form>
         </UserFormProvider>

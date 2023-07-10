@@ -14,10 +14,23 @@ import {
   Title,
 } from './styles';
 import { useDisclosure } from '@mantine/hooks';
-import { UserFormProvider, useUserForm } from '../common/form-context';
-import { zodResolver } from '@mantine/form';
-import { Select } from '@mantine/core';
 import Modalforms from './ModalForms';
+import { readDir, BaseDirectory, FileEntry } from '@tauri-apps/api/fs';
+
+const processEntries = async () => {
+  const entries = await readDir('users', {
+    dir: BaseDirectory.Document,
+    recursive: true,
+  });
+
+  for (const entry of entries) {
+    console.log(`Entry: ${entry.path}`);
+    if (entry.children) {
+      processEntries();
+    }
+  }
+};
+processEntries();
 
 const Dashboard = () => {
   const [opened, { open, close }] = useDisclosure(false);
