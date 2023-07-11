@@ -1,15 +1,33 @@
-import { Card } from '@mantine/core';
+import { Card, Text } from '@mantine/core';
 import { THEME } from '../../../../appTheme';
-const SharedCard = () => {
+import { FileEntry } from '@tauri-apps/api/fs';
+import { open } from '@tauri-apps/api/shell';
+
+const SharedCard = ({
+  name_of_file,
+  entry,
+}: {
+  name_of_file: string | undefined;
+  entry: FileEntry;
+}) => {
+  const openFile = async (path: string) => {
+    console.log('🚀 ~ file: card.tsx:64 ~ openFile ~ path', path);
+
+    await open(path);
+  };
   return (
     <Card
       sx={{
         background: THEME.colors.background.jet,
         color: THEME.colors.text.primary,
         borderLeft: '1px solid red',
+        cursor: 'pointer',
       }}
+      onClick={() => openFile(entry.path)}
     >
-      asdf
+      <Text size="lg" color="cyan">
+        {name_of_file}
+      </Text>
     </Card>
   );
 };

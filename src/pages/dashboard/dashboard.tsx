@@ -16,21 +16,26 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import Modalforms from './ModalForms';
 import { readDir, BaseDirectory, FileEntry } from '@tauri-apps/api/fs';
+import { documentDir } from '@tauri-apps/api/path';
+import { Text } from '@mantine/core';
 
-const processEntries = async () => {
-  const entries = await readDir('users', {
-    dir: BaseDirectory.Document,
-    recursive: true,
-  });
+const entries = await readDir('Records', {
+  dir: BaseDirectory.Document,
+  recursive: true,
+});
 
-  for (const entry of entries) {
-    console.log(`Entry: ${entry.path}`);
-    if (entry.children) {
-      processEntries();
-    }
-  }
-};
-processEntries();
+const revesedEntries = entries.reverse();
+const firstFive = revesedEntries.slice(0, 5);
+
+// const processEntries = (entries) => {
+//   for (const entry of entries) {
+//     console.log(`Entry: ${entry.path}`);
+//     if (entry.children) {
+//       processEntries(entry.children);
+//     }
+//   }
+// };
+// processEntries(entries);
 
 const Dashboard = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -53,9 +58,20 @@ const Dashboard = () => {
       </RequestBtn>
 
       <RecentFiles>
-        <Title>RECENT FILES</Title>
+        <Text
+          variant="gradient"
+          gradient={{ from: '#ffff', to: 'cyan', deg: 45 }}
+          sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
+          ta="left"
+          fz="2rem"
+          fw={700}
+        >
+          RECENT FILES
+        </Text>
         <RFContent>
-          <SharedCard />
+          {firstFive.map((entry, index) => (
+            <SharedCard key={index} name_of_file={entry.name} entry={entry} />
+          ))}
         </RFContent>
       </RecentFiles>
     </Layout>

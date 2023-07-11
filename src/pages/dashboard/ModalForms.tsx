@@ -19,6 +19,8 @@ import { useMutation } from 'react-query';
 const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
   const [all, setAll] = useState<{ [key: number]: string }>({});
   const [selectedFolder, setSelectedFolder] = useState<string | string[]>('');
+  const a = selectedFolder.toString().replace(/\\/g, '/');
+
   const [active, setActive] = useState(0);
   const [response, setResponse] = useState<any>([]);
 
@@ -73,13 +75,14 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
 
   const mutate = useMutation({
     mutationFn: async (data: { [key: string]: string }) => {
+      console.log('🚀 ~ file: ModalForms.tsx:76 ~ mutationFn: ~ data:', data);
       await fetch(`${Constants.API_URL}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          image_dir: selectedFolder,
+          image_dir: a,
           no_of_questions: data['number_of_questions'],
           master_key: { ...all },
         }),

@@ -13,10 +13,23 @@
   "tauri": {
     "allowlist": {
       "all": true,
+      "notification": {
+        "all": true
+      },
       "shell": {
-        "all": false,
-        "open": true
+        "all": true,
+        "open": false,
+        "execute": true,
+        "sidecar": true
       } , 
+      "fs": {
+         "all": true, 
+         "scope": ["$DOCUMENT", "$DOCUMENT/*"],
+        "readDir": true,
+        "createDir": true,
+        "removeFile": true,
+        "exists": true
+      },
       "dialog": {
         "all": true,
         "ask": true,
@@ -43,7 +56,7 @@
     },
     "updater": {
       "active": false
-    },
+    }, 
     "windows": [
       {
         "fullscreen": false,
