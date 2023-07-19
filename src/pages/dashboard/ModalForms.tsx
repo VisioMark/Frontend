@@ -134,12 +134,20 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
           <UserFormProvider form={form}>
             {/* @ts-ignore */}
             <form onSubmit={form.onSubmit((value) => mutate.mutate(value))}>
-              <Stepper active={active} onStepClick={setActive}>
+              <Stepper
+                active={active}
+                onStepClick={setActive}
+                styles={{
+                  stepLabel: {
+                    color: `${THEME.colors.button.primary}`,
+                  },
+                }}
+              >
                 <Stepper.Step label="Step 1">
                   <ModalInputs>
                     <GenericInput
                       {...form.getInputProps('lecturer_name')}
-                      placeholder=""
+                      placeholder="Kojo Nkansah"
                       val_name="lecturer_name"
                       label="Name of Lecturer"
                       textInput
@@ -148,7 +156,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
 
                     <GenericInput
                       {...form.getInputProps('course_code')}
-                      placeholder=""
+                      placeholder="COE 343"
                       val_name="course_code"
                       label="Course code"
                       textInput
@@ -157,7 +165,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
 
                     <GenericInput
                       val_name="department_code"
-                      placeholder=""
+                      placeholder="050"
                       label="Department code"
                       textInput
                       type="number"
@@ -180,7 +188,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
                       data={Constants.ACADEMIC_YEAR}
                     />
                     <GenericInput
-                      placeholder=""
+                      placeholder="40"
                       val_name="number_of_questions"
                       label="Total count of questions"
                       textInput

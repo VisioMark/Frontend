@@ -1,5 +1,3 @@
-import { GenericTextInput } from '../../auth-pages/styles';
-import { THEME } from '../../../appTheme';
 import { PasswordInput, TextInput } from '@mantine/core';
 import { useUserFormContext } from '../form-context';
 import { GenericInputProps } from './types';
