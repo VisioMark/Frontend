@@ -4,7 +4,7 @@ import { Text } from '@mantine/core';
 import { AllFilesContainer } from './styles';
 import SharedCard from '../common/components/Card/card';
 
-const entries = await readDir('Records', {
+const entries = await readDir('visioMark', {
   dir: BaseDirectory.Document,
   recursive: true,
 });

@@ -6,36 +6,28 @@ import Layout from '../common/components/Layout';
 import GenericBtn from '../common/components/button';
 import GenericInput from '../common/components/input';
 import { LogoWrapper } from '../common/components/layoutStyles';
-import {
-  ModalInputs,
-  RFContent,
-  RecentFiles,
-  RequestBtn,
-  Title,
-} from './styles';
+import { RFContent, RecentFiles, RequestBtn } from './styles';
 import { useDisclosure } from '@mantine/hooks';
 import Modalforms from './ModalForms';
 import { readDir, BaseDirectory, FileEntry } from '@tauri-apps/api/fs';
-import { documentDir } from '@tauri-apps/api/path';
 import { Text } from '@mantine/core';
 
-const entries = await readDir('Records', {
+const entries = await readDir('visioMark', {
   dir: BaseDirectory.Document,
   recursive: true,
 });
 
+function processEntries(entries: FileEntry[]) {
+  for (const entry of entries) {
+    console.log(`Entry: ${entry.path}`);
+    if (entry.children) {
+      processEntries(entry.children);
+    }
+  }
+}
+
 const revesedEntries = entries.reverse();
 const firstFive = revesedEntries.slice(0, 5);
-
-// const processEntries = (entries) => {
-//   for (const entry of entries) {
-//     console.log(`Entry: ${entry.path}`);
-//     if (entry.children) {
-//       processEntries(entry.children);
-//     }
-//   }
-// };
-// processEntries(entries);
 
 const Dashboard = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -68,11 +60,13 @@ const Dashboard = () => {
         >
           RECENT FILES
         </Text>
-        <RFContent>
-          {firstFive.map((entry, index) => (
-            <SharedCard key={index} name_of_file={entry.name} entry={entry} />
-          ))}
-        </RFContent>
+        <div style={{ overflowY: 'auto', background: '', height: '' }}>
+          <RFContent>
+            {firstFive.map((entry, index) => (
+              <SharedCard key={index} name_of_file={entry.name} entry={entry} />
+            ))}
+          </RFContent>
+        </div>
       </RecentFiles>
     </Layout>
   );

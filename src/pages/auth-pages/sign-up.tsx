@@ -118,7 +118,7 @@ const SignUp = () => {
             label="Confirm Password"
             description="Password must include at least one letter, number and special character"
           />
-          <GenericBtn title="Sign Up" />
+          <GenericBtn title="Sign Up" type="submit" />
         </InputWrapper>
       </UserFormProvider>
     </General>

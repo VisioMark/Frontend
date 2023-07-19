@@ -13,6 +13,7 @@ export const RequestBtn = styled.div`
 
 export const RecentFiles = styled.div`
   margin-top: 2rem;
+  height: '100%';
 `;
 
 export const Title = styled.p`
@@ -25,10 +26,19 @@ export const RFContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  /* background-color: blue; */
+  height: 100%;
 `;
 
 export const ModalInputs = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+`;
+
+export const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 `;

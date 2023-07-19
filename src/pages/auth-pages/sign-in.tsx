@@ -44,7 +44,7 @@ const SignIn = () => {
             val_name="password"
             label="Password"
           />
-          <GenericBtn title="Sign In" />
+          <GenericBtn type="submit" title="Sign In" />
         </InputWrapper>
       </UserFormProvider>
     </General>
