@@ -10,6 +10,7 @@ const useStyles = createStyles((theme) => ({
     '& .mantine-Paper-root': {
       background: `${THEME.colors.background.secondary}`,
       color: `${THEME.colors.text.primary}`,
+      height: '80vh',
     },
   },
 }));
@@ -31,7 +32,7 @@ const ModalComp = ({
         onClose={close}
         centered
         className={classes.modal}
-        size={'lg'}
+        size={'800px'}
       >
         {children}
       </Modal>

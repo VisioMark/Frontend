@@ -12,6 +12,8 @@ import { Constants } from '../../../utils/constants';
 import { BiHome } from 'react-icons/bi';
 import { CgFileDocument } from 'react-icons/cg';
 import { FiSettings } from 'react-icons/fi';
+import { Avatar } from '@mantine/core';
+import { THEME } from '../../../appTheme';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -41,7 +43,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       <ContentContainer>
         <UserDetails>
-          <img src="/src/assets/user.svg" width={40} alt="user" />
+          <Avatar
+            styles={{
+              placeholder: {
+                color: `${THEME.colors.button.midnight_green}`,
+              },
+            }}
+          >
+            JD
+          </Avatar>
+          {/* <img src="/src/assets/user.svg" width={40} alt="user" /> */}
           <p>John Doe</p>
         </UserDetails>
         {children}

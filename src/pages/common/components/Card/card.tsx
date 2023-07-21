@@ -1,4 +1,4 @@
-import { Card, Text } from '@mantine/core';
+import { Card, Text, Tooltip } from '@mantine/core';
 import { THEME } from '../../../../appTheme';
 import { FileEntry } from '@tauri-apps/api/fs';
 import { open } from '@tauri-apps/api/shell';
@@ -16,19 +16,21 @@ const SharedCard = ({
     await open(path);
   };
   return (
-    <Card
-      sx={{
-        background: THEME.colors.background.jet,
-        color: THEME.colors.text.primary,
-        borderLeft: '1px solid red',
-        cursor: 'pointer',
-      }}
-      onClick={() => openFile(entry.path)}
-    >
-      <Text size="lg" color="cyan">
-        {name_of_file}
-      </Text>
-    </Card>
+    <Tooltip label="Click to open file" withArrow position="top-end">
+      <Card
+        sx={{
+          background: THEME.colors.background.jet,
+          color: THEME.colors.text.primary,
+          borderLeft: '1px solid red',
+          cursor: 'pointer',
+        }}
+        onClick={() => openFile(entry.path)}
+      >
+        <Text size="lg" color="cyan">
+          {name_of_file}
+        </Text>
+      </Card>
+    </Tooltip>
   );
 };
 

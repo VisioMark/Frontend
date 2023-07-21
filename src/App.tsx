@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { invoke } from '@tauri-apps/api/tauri';
 import routing from './routes';
+import { Notifications } from '@mantine/notifications';
 
 function App() {
   const [greetMsg, setGreetMsg] = useState('');
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <>
+      <Notifications limit={3} />
       <RouterProvider router={routing} />
     </>
   );

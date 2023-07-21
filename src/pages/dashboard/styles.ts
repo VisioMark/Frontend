@@ -13,7 +13,6 @@ export const RequestBtn = styled.div`
 
 export const RecentFiles = styled.div`
   margin-top: 2rem;
-  height: '100%';
 `;
 
 export const Title = styled.p`
@@ -26,7 +25,6 @@ export const RFContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  /* background-color: blue; */
   height: 100%;
 `;
 
@@ -41,4 +39,12 @@ export const LoaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+`;
+
+export const KeyheadStyles = styled.p`
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+  color: ${THEME.colors.text.primary};
 `;

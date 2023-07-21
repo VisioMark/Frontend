@@ -3,15 +3,15 @@ import ModalComp from '../common/Modal/Modal';
 import { LogoWrapper } from '../common/components/layoutStyles';
 import { UserFormProvider, useUserForm } from '../common/form-context';
 import { UseFormReturnType, zodResolver } from '@mantine/form';
-import { LoaderWrapper, ModalInputs, Title } from './styles';
+import { KeyheadStyles, LoaderWrapper, ModalInputs, Title } from './styles';
 import GenericInput from '../common/components/input';
 import GenericBtn from '../common/components/button';
 import { THEME } from '../../appTheme';
 import { SelectInput } from '../common/components/SelectInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dialog } from '@tauri-apps/api';
 import { Constants } from '../../utils/constants';
-import { Group, Loader, Stepper } from '@mantine/core';
+import { Group, Loader, Stepper, Badge, Box, ScrollArea } from '@mantine/core';
 import MasterKeyPage from '../master-key';
 import { schema } from './schema';
 import { useMutation } from 'react-query';
@@ -20,6 +20,10 @@ import {
   requestPermission,
   sendNotification,
 } from '@tauri-apps/api/notification';
+import { checkImagesForCorruption } from '../../utils/helper';
+import AppAlert from '../common/notification/alert';
+import { Notifications } from '@mantine/notifications';
+import { set } from '@techstark/opencv-js';
 
 let permissionGranted = await isPermissionGranted();
 if (!permissionGranted) {
@@ -30,11 +34,11 @@ if (!permissionGranted) {
 const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
   const [all, setAll] = useState<{ [key: number]: string }>({});
   const [selectedFolder, setSelectedFolder] = useState<string | string[]>('');
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
   const a = selectedFolder.toString().replace(/\\/g, '/');
-
   const [active, setActive] = useState(0);
   const [response, setResponse] = useState<any>([]);
+  const [alert, setAlert] = useState(false);
 
   function DisplayDivMultipleTimes() {
     const divs = [];
@@ -105,6 +109,11 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
               body: 'visioMark is awesome!',
             });
           }
+          AppAlert({
+            title: 'Succes',
+            color: `${THEME.colors.button.primary}`,
+            message: 'Marked Successfully!! 😁',
+          });
           return response.json();
         })
         .then((data) => setResponse(data))
@@ -118,6 +127,25 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
     },
   });
 
+  if (error) {
+    AppAlert({
+      title: 'ERROR',
+      message: 'Check if you filled all inputs 🤦🏾‍♂️',
+      color: 'red',
+    });
+  }
+  const validateData = (data: any) => {
+    try {
+      schema.parse(data);
+      setError(false);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setError(true);
+        console.error('Validation error:', error);
+      }
+    }
+  };
+
   return (
     <>
       <ModalComp opened={open} close={close}>
@@ -125,7 +153,6 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
           <img src="/src/assets/logo.svg" width={40} alt="logo" />
           <Title>visioMark</Title>
         </LogoWrapper>
-
         {mutate.isLoading ? (
           <LoaderWrapper>
             <Loader />
@@ -206,13 +233,20 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
                       }}
                     />
                     {selectedFolder && (
-                      <div>
+                      <Badge
+                        pl={0}
+                        size="lg"
+                        color={`${THEME.colors.text.primary}`}
+                        radius="xl"
+                      >
                         <p>{selectedFolder}</p>
-                      </div>
+                      </Badge>
                     )}
                   </ModalInputs>
                 </Stepper.Step>
                 <Stepper.Completed>
+                  <KeyheadStyles>Select the correct answers</KeyheadStyles>
+
                   <DisplayDivMultipleTimes />
                 </Stepper.Completed>
               </Stepper>
@@ -249,6 +283,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
                   <GenericBtn
                     title="Done"
                     type="submit"
+                    onClick={() => validateData(form.values)}
                     sx={{
                       height: '2rem',
                       width: '5rem',
