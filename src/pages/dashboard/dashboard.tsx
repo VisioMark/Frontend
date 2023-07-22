@@ -1,18 +1,55 @@
 import { z } from 'zod';
 import { THEME } from '../../appTheme';
-import ModalComp from '../common/Modal/Modal';
 import SharedCard from '../common/components/Card/card';
 import Layout from '../common/components/Layout';
 import GenericBtn from '../common/components/button';
-import GenericInput from '../common/components/input';
-import { LogoWrapper } from '../common/components/layoutStyles';
 import { RFContent, RecentFiles, RequestBtn } from './styles';
 import { useDisclosure } from '@mantine/hooks';
 import Modalforms from './ModalForms';
-import { readDir, BaseDirectory, FileEntry } from '@tauri-apps/api/fs';
+import {
+  readDir,
+  BaseDirectory,
+  FileEntry,
+  readTextFile,
+} from '@tauri-apps/api/fs';
 import { Text } from '@mantine/core';
 import { useState } from 'react';
-import { set } from '@techstark/opencv-js';
+import { documentDir, join } from '@tauri-apps/api/path';
+import { ITableDataProps } from '../common/Table/types';
+
+const documentDirPath = await documentDir();
+const a = await join(documentDirPath, 'visioMark');
+
+export const readCSVFile = async ({
+  name_of_file,
+}: {
+  name_of_file?: string;
+}) => {
+  try {
+    const result = await readTextFile(
+      `visioMark\\predictions_20230719_151850.csv`,
+      {
+        dir: BaseDirectory.Document,
+      }
+    );
+    const csvData = result.split('\n');
+    const data: ITableDataProps[] = [];
+    for (const row of csvData) {
+      const rowData = row.split(',');
+      const item = {
+        file_name: rowData[0],
+        predictions: rowData[1],
+        score: rowData[2],
+        'index number': rowData[3],
+      };
+      data.push(item);
+    }
+    return data.splice(1);
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
 const entries = await readDir('visioMark', {
   dir: BaseDirectory.Document,
@@ -25,17 +62,17 @@ const firstFive = revesedEntries.slice(0, 5);
 const Dashboard = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [allFiles, setAllFiles] = useState<FileEntry[]>([]);
-  console.log('🚀 ~ file: dashboard.tsx:29 ~ Dashboard ~ allFiles:', allFiles);
 
   function processEntries(entries: FileEntry[]) {
     for (const entry of entries) {
-      // console.log(`Entry: ${entry.path}`);
+      console.log(`Entry: ${entry.path}`);
       if (entry.children) {
         setAllFiles((prev) => [...prev, entry]);
         processEntries(entry.children);
       }
     }
   }
+
   return (
     <Layout>
       <RequestBtn>

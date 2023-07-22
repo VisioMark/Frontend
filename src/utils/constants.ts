@@ -6,6 +6,7 @@ export const Constants = {
     signIn: '/signin',
     settings: '/settings',
     allfiles: '/allfiles',
+    preview: '/preview',
   },
   ACADEMIC_LEVELS: [
     {

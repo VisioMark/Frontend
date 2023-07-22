@@ -6,6 +6,7 @@ import Dashboard from './pages/dashboard/dashboard';
 import AllFiles from './pages/all-files/AllFiles';
 import Settings from './pages/settings/Settings';
 import SignIn from './pages/auth-pages/sign-in';
+import Preview from './pages/file-preview';
 
 const ROUTE = Constants.PATHS;
 
@@ -33,6 +34,10 @@ const routing = createBrowserRouter([
   {
     path: ROUTE.signIn,
     element: <SignIn />,
+  },
+  {
+    path: ROUTE.preview,
+    element: <Preview />,
   },
 ]);
 
