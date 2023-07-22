@@ -14,6 +14,7 @@ import { keys } from '@mantine/utils';
 import { ITableDataProps } from './types';
 import { BiChevronDown, BiChevronUp, BiSearch } from 'react-icons/bi';
 import { HiSelector } from 'react-icons/hi';
+import styled from 'styled-components';
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -71,7 +72,6 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 function filterData(data: ITableDataProps[], search: string) {
-  console.log('🚀 ~ file: table.tsx:74 ~ filterData ~ data:', data);
   const query = search.toLowerCase().trim();
   return data.filter((item) =>
     keys(data[0]).some((key) => item[key].toLowerCase().includes(query))
@@ -132,7 +132,7 @@ function GenericTable({ data }: TableSortProps) {
   const rows = sortedData.map((row) => (
     <tr key={row.file_name}>
       <td>{row.file_name}</td>
-      <td>{row.predictions}</td>
+      <PreictionDataRow>{row.predictions}</PreictionDataRow>
       <td>{row.score}</td>
       <td>{row['index number']}</td>
     </tr>
@@ -204,3 +204,8 @@ function GenericTable({ data }: TableSortProps) {
 }
 
 export default GenericTable;
+
+const PreictionDataRow = styled.td`
+  white-space: nowrap;
+  overflow-x: auto;
+`;

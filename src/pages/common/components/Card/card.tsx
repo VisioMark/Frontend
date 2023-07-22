@@ -27,9 +27,7 @@ const SharedCard = ({
   };
 
   const runReadCSVFile = async () => {
-    const data = await readCSVFile({ name_of_file: entry.path });
-    // setData(data);
-
+    const data = await readCSVFile({ name_of_file });
     navigate(`${Constants.PATHS.preview}`, { state: data });
   };
 

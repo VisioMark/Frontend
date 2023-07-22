@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 const Preview = () => {
   const data = useLocation().state;
-  console.log('🚀 ~ file: index.tsx:8 ~ Preview ~ data:', data);
   return (
     <Layout>
       <GenericTable data={data} />

@@ -26,12 +26,9 @@ export const readCSVFile = async ({
   name_of_file?: string;
 }) => {
   try {
-    const result = await readTextFile(
-      `visioMark\\predictions_20230719_151850.csv`,
-      {
-        dir: BaseDirectory.Document,
-      }
-    );
+    const result = await readTextFile(`visioMark\\${name_of_file}`, {
+      dir: BaseDirectory.Document,
+    });
     const csvData = result.split('\n');
     const data: ITableDataProps[] = [];
     for (const row of csvData) {
@@ -44,6 +41,7 @@ export const readCSVFile = async ({
       };
       data.push(item);
     }
+    const newData = data.splice(-1, 1);
     return data.splice(1);
   } catch (error) {
     console.log(error);
@@ -63,15 +61,14 @@ const Dashboard = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [allFiles, setAllFiles] = useState<FileEntry[]>([]);
 
-  function processEntries(entries: FileEntry[]) {
+  (function processEntries(entries: FileEntry[]) {
     for (const entry of entries) {
-      console.log(`Entry: ${entry.path}`);
       if (entry.children) {
         setAllFiles((prev) => [...prev, entry]);
         processEntries(entry.children);
       }
     }
-  }
+  })(entries);
 
   return (
     <Layout>
