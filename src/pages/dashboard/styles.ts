@@ -7,12 +7,15 @@ export const RequestBtn = styled.div`
   align-items: center;
   background: ${THEME.colors.background.jet};
   height: 40%;
+  width: 100%;
   margin-top: 0.4rem;
   border-radius: 10px;
 `;
 
 export const RecentFiles = styled.div`
   margin-top: 2rem;
+  width: 100%;
+  height: 60%;
 `;
 
 export const Title = styled.p`

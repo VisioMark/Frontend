@@ -20,10 +20,8 @@ import {
   requestPermission,
   sendNotification,
 } from '@tauri-apps/api/notification';
-import { checkImagesForCorruption } from '../../utils/helper';
 import AppAlert from '../common/notification/alert';
-import { Notifications } from '@mantine/notifications';
-import { set } from '@techstark/opencv-js';
+import { useNavigate } from 'react-router-dom';
 
 let permissionGranted = await isPermissionGranted();
 if (!permissionGranted) {
@@ -89,6 +87,8 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
       },
     });
 
+  const navigate = useNavigate();
+
   const mutate = useMutation({
     mutationFn: async (data: { [key: string]: string }) => {
       await fetch(`${Constants.API_URL}`, {
@@ -99,21 +99,26 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
         body: JSON.stringify({
           image_dir: a,
           no_of_questions: data['number_of_questions'],
+          course_code: data['course_code'],
           master_key: { ...all },
         }),
       })
         .then((response) => {
-          if (permissionGranted) {
-            sendNotification({
-              title: 'VisioMark',
-              body: 'visioMark is awesome!',
-            });
-          }
+          // if (permissionGranted) {
+          //   sendNotification({
+          //     title: 'VisioMark',
+          //     body: 'visioMark is awesome!',
+          //   });
+          // }
+          navigate(`${Constants.PATHS.preview}`, {
+            state: { data: response },
+          });
           AppAlert({
             title: 'Succes',
             color: `${THEME.colors.button.primary}`,
             message: 'Marked Successfully!! 😁',
           });
+
           return response.json();
         })
         .then((data) => setResponse(data))
@@ -246,7 +251,6 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
                 </Stepper.Step>
                 <Stepper.Completed>
                   <KeyheadStyles>Select the correct answers</KeyheadStyles>
-
                   <DisplayDivMultipleTimes />
                 </Stepper.Completed>
               </Stepper>

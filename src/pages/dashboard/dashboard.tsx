@@ -12,7 +12,7 @@ import {
   FileEntry,
   readTextFile,
 } from '@tauri-apps/api/fs';
-import { Text } from '@mantine/core';
+import { ScrollArea, Text } from '@mantine/core';
 import { useState } from 'react';
 import { documentDir, join } from '@tauri-apps/api/path';
 import { ITableDataProps } from '../common/Table/types';
@@ -54,9 +54,6 @@ const entries = await readDir('visioMark', {
   recursive: true,
 });
 
-const revesedEntries = entries.reverse();
-const firstFive = revesedEntries.slice(0, 5);
-
 const Dashboard = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [allFiles, setAllFiles] = useState<FileEntry[]>([]);
@@ -70,45 +67,68 @@ const Dashboard = () => {
     }
   })(entries);
 
+  const revesedEntries = entries.reverse();
+  const firstFive = revesedEntries.slice(0, 5);
+
   return (
     <Layout>
-      <RequestBtn>
-        <Modalforms open={opened} close={close} />
-        <GenericBtn
-          tooltip="Start the process of marking your files"
-          type="button"
-          title="Mark sheets"
-          sx={{
-            height: '7rem',
-            width: '19rem',
-            fontSize: '1.3rem',
-            background: `${THEME.colors.button.primary}`,
-          }}
-          onClick={open}
-        />
-      </RequestBtn>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          height: 'calc(100% - 64px)',
+        }}
+      >
+        <RequestBtn>
+          <Modalforms open={opened} close={close} />
+          <GenericBtn
+            tooltip="Start the process of marking your files"
+            type="button"
+            title="Mark sheets"
+            sx={{
+              height: '7rem',
+              width: '19rem',
+              fontSize: '1.3rem',
+              background: `${THEME.colors.button.primary}`,
+            }}
+            onClick={open}
+          />
+        </RequestBtn>
 
-      <RecentFiles>
-        <Text
-          variant="gradient"
-          gradient={{
-            from: '#ffff',
-            to: `${THEME.colors.button.midnight_green}`,
-            deg: 45,
-          }}
-          sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
-          ta="left"
-          fz="2rem"
-          fw={700}
-        >
-          RECENT FILES
-        </Text>
-        <RFContent>
-          {firstFive.map((entry, index) => (
-            <SharedCard key={index} name_of_file={entry.name} entry={entry} />
-          ))}
-        </RFContent>
-      </RecentFiles>
+        <RecentFiles>
+          <Text
+            variant="gradient"
+            gradient={{
+              from: '#ffff',
+              to: `${THEME.colors.button.midnight_green}`,
+              deg: 45,
+            }}
+            sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
+            ta="left"
+            fz="2rem"
+            fw={700}
+          >
+            RECENT FILES
+          </Text>
+          <ScrollArea
+            style={{
+              height: '39vh',
+              padding: '10px 15px 10px 0',
+            }}
+          >
+            <RFContent>
+              {firstFive.map((entry, index) => (
+                <SharedCard
+                  key={index}
+                  name_of_file={entry.name}
+                  entry={entry}
+                />
+              ))}
+            </RFContent>
+          </ScrollArea>
+        </RecentFiles>
+      </div>
     </Layout>
   );
 };

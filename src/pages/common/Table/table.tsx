@@ -11,7 +11,7 @@ import {
   rem,
 } from '@mantine/core';
 import { keys } from '@mantine/utils';
-import { ITableDataProps } from './types';
+import { ITableDataProps, TableSortProps, ThProps } from './types';
 import { BiChevronDown, BiChevronUp, BiSearch } from 'react-icons/bi';
 import { HiSelector } from 'react-icons/hi';
 import styled from 'styled-components';
@@ -19,7 +19,7 @@ import styled from 'styled-components';
 const useStyles = createStyles((theme) => ({
   th: {
     padding: '0 !important',
-    background: 'white',
+    background: ``,
   },
 
   control: {
@@ -40,17 +40,6 @@ const useStyles = createStyles((theme) => ({
     borderRadius: rem(21),
   },
 }));
-
-interface TableSortProps {
-  data: ITableDataProps[];
-}
-
-interface ThProps {
-  children: React.ReactNode;
-  reversed: boolean;
-  sorted: boolean;
-  onSort(): void;
-}
 
 function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles();
@@ -119,10 +108,6 @@ function GenericTable({ data }: TableSortProps) {
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
-    console.log(
-      '🚀 ~ file: table.tsx:121 ~ handleSearchChange ~ value:',
-      value
-    );
     setSearch(value);
     setSortedData(
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
@@ -151,7 +136,7 @@ function GenericTable({ data }: TableSortProps) {
         horizontalSpacing="md"
         verticalSpacing="xs"
         miw={700}
-        sx={{ tableLayout: 'fixed', backgroundColor: 'white' }}
+        sx={{ tableLayout: 'fixed', backgroundColor: 'aliceblue' }}
       >
         <thead>
           <tr>

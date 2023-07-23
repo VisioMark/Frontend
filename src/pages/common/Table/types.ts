@@ -4,3 +4,14 @@ export interface ITableDataProps {
   score: string;
   'index number': string;
 }
+
+export interface TableSortProps {
+  data: ITableDataProps[];
+}
+
+export interface ThProps {
+  children: React.ReactNode;
+  reversed: boolean;
+  sorted: boolean;
+  onSort(): void;
+}

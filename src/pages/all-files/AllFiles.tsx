@@ -1,8 +1,9 @@
-import { BaseDirectory, readDir } from '@tauri-apps/api/fs';
+import { BaseDirectory, FileEntry, readDir } from '@tauri-apps/api/fs';
 import Layout from '../common/components/Layout';
-import { Text } from '@mantine/core';
+import { ScrollArea, Text } from '@mantine/core';
 import { AllFilesContainer } from './styles';
 import SharedCard from '../common/components/Card/card';
+import { useState } from 'react';
 
 const entries = await readDir('visioMark', {
   dir: BaseDirectory.Document,
@@ -10,23 +11,55 @@ const entries = await readDir('visioMark', {
 });
 
 const AllFiles = () => {
+  const [allFiles, setAllFiles] = useState<FileEntry[]>([]);
+
+  (function processEntries(entries: FileEntry[]) {
+    for (const entry of entries) {
+      console.log(
+        '🚀 ~ file: AllFiles.tsx:18 ~ processEntries ~ entry:',
+        entry.children
+      );
+      if (entry.children) {
+        setAllFiles((prev) => [...prev, entry]);
+        processEntries(entries);
+      }
+    }
+  })(entries);
+
   return (
     <Layout>
-      <Text
-        variant="gradient"
-        gradient={{ from: '#ffff', to: 'cyan', deg: 45 }}
-        sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
-        ta="left"
-        fz="2rem"
-        fw={700}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          padding: '10px 0',
+          height: 'calc(100% - 70px)',
+        }}
       >
-        ALL FILES
-      </Text>
-      <AllFilesContainer>
-        {entries.map((entry, index) => (
-          <SharedCard key={index} name_of_file={entry.name} entry={entry} />
-        ))}
-      </AllFilesContainer>
+        <Text
+          variant="gradient"
+          gradient={{ from: '#ffff', to: 'cyan', deg: 45 }}
+          sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
+          ta="left"
+          fz="2rem"
+          fw={700}
+        >
+          ALL FILES
+        </Text>
+        <ScrollArea
+          style={{
+            // height: '39vh',
+            padding: '10px 15px 10px 0',
+          }}
+        >
+          <AllFilesContainer>
+            {entries.map((entry, index) => (
+              <SharedCard key={index} name_of_file={entry.name} entry={entry} />
+            ))}
+          </AllFilesContainer>
+        </ScrollArea>
+      </div>
     </Layout>
   );
 };

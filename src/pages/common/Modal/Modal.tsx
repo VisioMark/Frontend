@@ -1,4 +1,4 @@
-import { Modal, createStyles } from '@mantine/core';
+import { Modal, ScrollArea, createStyles } from '@mantine/core';
 import { THEME } from '../../../appTheme';
 
 const useStyles = createStyles((theme) => ({
@@ -10,7 +10,8 @@ const useStyles = createStyles((theme) => ({
     '& .mantine-Paper-root': {
       background: `${THEME.colors.background.secondary}`,
       color: `${THEME.colors.text.primary}`,
-      height: '80vh',
+      // height: '80vh',
+      overflowY: 'hidden',
     },
   },
 }));
@@ -28,9 +29,11 @@ const ModalComp = ({
   return (
     <>
       <Modal
+        returnFocus={true}
         opened={opened}
         onClose={close}
         centered
+        scrollAreaComponent={ScrollArea.Autosize}
         className={classes.modal}
         size={'800px'}
       >

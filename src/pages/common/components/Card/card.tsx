@@ -32,60 +32,66 @@ const SharedCard = ({
   };
 
   return (
-    <Card
-      sx={{
-        background: THEME.colors.background.jet,
-        color: THEME.colors.text.primary,
-        borderLeft: '1px solid red',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
-      <Text
-        size="lg"
-        color="cyan"
-        style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+    <div style={{ height: '3rem' }}>
+      <Card
+        sx={{
+          background: THEME.colors.background.jet,
+          color: THEME.colors.text.primary,
+          borderLeft: '1px solid red',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
       >
-        <FiFileText />
-        {name_of_file}
-      </Text>
-      <IconStyles>
-        <Tooltip label="Preview file" position="left">
-          <IconContainer>
-            <VscPreview
-              size={20}
-              color={`${THEME.colors.button.primary}`}
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                runReadCSVFile();
-              }}
-            />
-          </IconContainer>
-        </Tooltip>
-        <Tooltip
-          label="Click to open file"
-          withArrow
-          position="left"
-          // offset={-70}
-          zIndex={500}
+        <Text
+          size="lg"
+          color="cyan"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+          }}
         >
-          <IconContainer>
-            <BiLinkExternal
-              size={20}
-              color={`${THEME.colors.button.primary}`}
-              onClick={() => openFile(entry.path)}
-              style={{ cursor: 'pointer' }}
-            />
-          </IconContainer>
-        </Tooltip>
-        <Tooltip label="Click to delete file" position="left">
-          <IconContainer>
-            <BiTrash size={20} color="red" style={{ cursor: 'pointer' }} />
-          </IconContainer>
-        </Tooltip>
-      </IconStyles>
-    </Card>
+          <FiFileText />
+          {name_of_file}
+        </Text>
+        <IconStyles>
+          <Tooltip label="Preview file" position="left">
+            <IconContainer>
+              <VscPreview
+                size={20}
+                color={`${THEME.colors.button.primary}`}
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  runReadCSVFile();
+                }}
+              />
+            </IconContainer>
+          </Tooltip>
+          <Tooltip
+            label="Click to open file"
+            withArrow
+            position="left"
+            // offset={-70}
+            zIndex={500}
+          >
+            <IconContainer>
+              <BiLinkExternal
+                size={20}
+                color={`${THEME.colors.button.primary}`}
+                onClick={() => openFile(entry.path)}
+                style={{ cursor: 'pointer' }}
+              />
+            </IconContainer>
+          </Tooltip>
+          <Tooltip label="Click to delete file" position="left">
+            <IconContainer>
+              <BiTrash size={20} color="red" style={{ cursor: 'pointer' }} />
+            </IconContainer>
+          </Tooltip>
+        </IconStyles>
+      </Card>
+    </div>
   );
 };
 
