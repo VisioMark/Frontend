@@ -1,7 +1,7 @@
 export interface ITableDataProps {
   file_name: string;
   predictions: string;
-  score: string;
+  score: number;
   'index number': string;
 }
 

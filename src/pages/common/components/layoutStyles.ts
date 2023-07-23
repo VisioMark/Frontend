@@ -69,10 +69,20 @@ export const ContentContainer = styled.div`
   padding: 1.5rem;
 `;
 
+export const NavBarStyles = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  background-color: ${THEME.colors.background.jet};
+`;
+
 export const UserDetails = styled.div`
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   gap: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 10px;

@@ -8,7 +8,7 @@ import GenericInput from '../common/components/input';
 import GenericBtn from '../common/components/button';
 import { THEME } from '../../appTheme';
 import { SelectInput } from '../common/components/SelectInput';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { dialog } from '@tauri-apps/api';
 import { Constants } from '../../utils/constants';
 import { Group, Loader, Stepper, Badge, Box, ScrollArea } from '@mantine/core';
@@ -22,6 +22,7 @@ import {
 } from '@tauri-apps/api/notification';
 import AppAlert from '../common/notification/alert';
 import { useNavigate } from 'react-router-dom';
+import { appContext } from '../../utils/Context';
 
 let permissionGranted = await isPermissionGranted();
 if (!permissionGranted) {
@@ -35,8 +36,9 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
   const [error, setError] = useState<boolean>(false);
   const a = selectedFolder.toString().replace(/\\/g, '/');
   const [active, setActive] = useState(0);
-  const [response, setResponse] = useState<any>([]);
   const [alert, setAlert] = useState(false);
+
+  const { setResponseData } = useContext(appContext);
 
   function DisplayDivMultipleTimes() {
     const divs = [];
@@ -121,7 +123,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
 
           return response.json();
         })
-        .then((data) => setResponse(data))
+        .then((data) => setResponseData(data))
         .catch((err) => setError(err));
     },
     onSuccess: (data) => {

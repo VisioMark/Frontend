@@ -20,35 +20,6 @@ import { ITableDataProps } from '../common/Table/types';
 const documentDirPath = await documentDir();
 const a = await join(documentDirPath, 'visioMark');
 
-export const readCSVFile = async ({
-  name_of_file,
-}: {
-  name_of_file?: string;
-}) => {
-  try {
-    const result = await readTextFile(`visioMark\\${name_of_file}`, {
-      dir: BaseDirectory.Document,
-    });
-    const csvData = result.split('\n');
-    const data: ITableDataProps[] = [];
-    for (const row of csvData) {
-      const rowData = row.split(',');
-      const item = {
-        file_name: rowData[0],
-        predictions: rowData[1],
-        score: rowData[2],
-        'index number': rowData[3],
-      };
-      data.push(item);
-    }
-    const newData = data.splice(-1, 1);
-    return data.splice(1);
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-};
-
 const entries = await readDir('visioMark', {
   dir: BaseDirectory.Document,
   recursive: true,

@@ -8,10 +8,9 @@ import { VscPreview } from 'react-icons/vsc';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Constants } from '../../../../utils/constants';
-import { readCSVFile } from '../../../dashboard/dashboard';
-import { ITableDataProps } from '../../Table/types';
-import { useState } from 'react';
-import { run } from 'node:test';
+import { readCSVFile } from '../../../../utils/helper';
+import { useContext } from 'react';
+import { appContext } from '../../../../utils/Context';
 
 const SharedCard = ({
   name_of_file,
@@ -20,14 +19,16 @@ const SharedCard = ({
   name_of_file: string | undefined;
   entry: FileEntry;
 }) => {
-  const [data, setData] = useState<ITableDataProps[] | false>([]);
   const navigate = useNavigate();
   const openFile = async (path: string) => {
     await open(path);
   };
+  const { setResponseData } = useContext(appContext);
 
   const runReadCSVFile = async () => {
     const data = await readCSVFile({ name_of_file });
+    if (!data) return;
+    setResponseData(data);
     navigate(`${Constants.PATHS.preview}`, { state: data });
   };
 

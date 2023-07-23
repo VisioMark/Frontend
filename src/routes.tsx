@@ -7,6 +7,7 @@ import AllFiles from './pages/all-files/AllFiles';
 import Settings from './pages/settings/Settings';
 import SignIn from './pages/auth-pages/sign-in';
 import Preview from './pages/file-preview';
+import Statistics from './pages/file-preview/analytics/statistics';
 
 const ROUTE = Constants.PATHS;
 
@@ -38,6 +39,10 @@ const routing = createBrowserRouter([
   {
     path: ROUTE.preview,
     element: <Preview />,
+  },
+  {
+    path: ROUTE.statistics,
+    element: <Statistics />,
   },
 ]);
 
