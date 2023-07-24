@@ -27,28 +27,30 @@ const entries = await readDir('visioMark', {
   dir: BaseDirectory.Document,
   recursive: true,
 });
-console.log('🚀 ~ file: dashboard.tsx:29 ~ entries:', entries);
 
 const Dashboard = () => {
   const { getFilenamesFromLocalStorage } = useDashboard();
   const [opened, { open, close }] = useDisclosure(false);
   const [allFiles, setAllFiles] = useState<FileEntry[]>([]);
-  const { forPreview, responseData } = useContext(appContext);
-  const navigate = useNavigate();
 
   const recentFiles = getFilenamesFromLocalStorage();
 
   function findMatches() {
     const matches = recentFiles.map((itemName) => {
-      // Find all items in 'a' that have a matching 'name' property
-      return entries.filter((item) => item.name === itemName);
+      const matchedItems = entries.filter((item) => item.name === itemName);
+      if (matchedItems.length === 0) {
+        //  const storedData =
+        //    JSON.parse(localStorage.getItem('recentFileNames')) || [];
+        const filteredData = recentFiles.filter((item) => item !== itemName);
+        localStorage.setItem('recentFileNames', JSON.stringify(filteredData));
+      }
+      return matchedItems;
     });
 
     return matches.flat();
   }
 
   const recentEntries = findMatches();
-  console.log('🚀 ~ file: dashboard.tsx:51 ~ Dashboard ~ a:', a);
 
   // useEffect(() => {
   //   if (forPreview) {
@@ -64,9 +66,6 @@ const Dashboard = () => {
       }
     }
   })(entries);
-
-  const revesedEntries = entries.reverse();
-  const firstFive = revesedEntries.slice(0, 5);
 
   return (
     <Layout>

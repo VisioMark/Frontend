@@ -71,9 +71,9 @@ const useDashboard = () => {
         const responseData: [string, ITableDataProps[]] = await response.json();
 
         if (response.ok) {
-          close();
+          // close();
           storeToLocalStorage(responseData[0]);
-          // window.location.reload();
+          window.location.reload();
           setResponseData(responseData[1]);
           setForPreview(true);
           AppAlert({
