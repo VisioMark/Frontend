@@ -10,19 +10,26 @@ type ResponseData = {
 interface IAppContext {
   responseData: ResponseData;
   setResponseData: React.Dispatch<React.SetStateAction<ResponseData>>;
+  forPreview: boolean;
+  setForPreview: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const appContext = createContext<IAppContext>({
   responseData: [],
   setResponseData: () => {},
+  forPreview: false,
+  setForPreview: () => {},
 });
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [responseData, setResponseData] = useState<ResponseData>([]);
+  const [forPreview, setForPreview] = useState(false);
 
   const value = {
     responseData,
     setResponseData,
+    forPreview,
+    setForPreview,
   };
   return <appContext.Provider value={value}>{children}</appContext.Provider>;
 };

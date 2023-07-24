@@ -39,10 +39,35 @@ const useStyles = createStyles((theme) => ({
     height: rem(21),
     borderRadius: rem(21),
   },
+  header: {
+    position: 'sticky',
+    top: 0,
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `${rem(1)} solid ${
+        theme.colorScheme === 'dark'
+          ? theme.colors.dark[3]
+          : theme.colors.gray[2]
+      }`,
+    },
+  },
+
+  scrolled: {
+    boxShadow: theme.shadows.sm,
+  },
 }));
 
 function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles();
+
   const Icon = sorted ? (reversed ? BiChevronUp : BiChevronDown) : HiSelector;
   return (
     <th className={classes.th}>
@@ -94,6 +119,9 @@ function sortData(
 }
 
 function GenericTable({ data }: TableSortProps) {
+  const { classes, cx } = useStyles();
+  const [scrolled, setScrolled] = useState(false);
+
   const [search, setSearch] = useState('');
   const [sortedData, setSortedData] = useState(data);
   const [sortBy, setSortBy] = useState<keyof ITableDataProps | null>(null);
@@ -124,7 +152,10 @@ function GenericTable({ data }: TableSortProps) {
   ));
 
   return (
-    <ScrollArea>
+    <ScrollArea
+      h={'calc(100% - 70px)'}
+      onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
+    >
       <TextInput
         placeholder="Search by any field"
         mb="md"
@@ -138,7 +169,7 @@ function GenericTable({ data }: TableSortProps) {
         miw={700}
         sx={{ tableLayout: 'fixed', backgroundColor: 'aliceblue' }}
       >
-        <thead>
+        <thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
           <tr>
             <Th
               sorted={sortBy === 'file_name'}

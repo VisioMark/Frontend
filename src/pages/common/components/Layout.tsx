@@ -12,6 +12,7 @@ import {
 import { Constants } from '../../../utils/constants';
 import { BiHome } from 'react-icons/bi';
 import { CgFileDocument } from 'react-icons/cg';
+import { FcStatistics } from 'react-icons/fc';
 import { FiSettings } from 'react-icons/fi';
 import { Avatar, Tabs } from '@mantine/core';
 import { THEME } from '../../../appTheme';
@@ -22,14 +23,12 @@ import {
   useParams,
 } from 'react-router-dom';
 import { StyledTabs } from './Tab';
+import { VscPreview } from 'react-icons/vsc';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { tabValue } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  console.log('🚀 ~ file: Layout.tsx:21 ~ Layout ~ pathname:', pathname);
-  const isPathMatch = useMatch('/preview');
-  console.log('🚀 ~ file: Layout.tsx:23 ~ Layout ~ isPathMatch:', isPathMatch);
   return (
     <Dashboardcontainer>
       <SidebarContainer>
@@ -38,17 +37,42 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Title>visioMark</Title>
         </LogoWrapper>
         <Navigation>
-          <NavLinks to={'/'} aria-label="link to home">
+          <NavLinks to={`${Constants.PATHS.home}`} aria-label="link to home">
             <BiHome size={20} />
             Home
           </NavLinks>
 
-          <NavLinks to={'/allfiles'} aria-label="shows all the files">
+          <NavLinks
+            to={`${Constants.PATHS.allfiles}`}
+            aria-label="shows all the files"
+          >
             <CgFileDocument size={20} />
             All files
           </NavLinks>
 
-          <NavLinks to={'/settings'} aria-label="settings of the user">
+          {pathname === `${Constants.PATHS.preview}` ||
+          pathname === Constants.PATHS.statistics ? (
+            <>
+              <NavLinks
+                to={`${Constants.PATHS.preview}`}
+                aria-label="settings of the user"
+              >
+                <VscPreview size={20} />
+                Preview
+              </NavLinks>
+              <NavLinks
+                to={`${Constants.PATHS.statistics}`}
+                aria-label="settings of the user"
+              >
+                <FcStatistics size={20} />
+                Statistics
+              </NavLinks>
+            </>
+          ) : null}
+          <NavLinks
+            to={`${Constants.PATHS.settings}`}
+            aria-label="settings of the user"
+          >
             <FiSettings size={20} />
             Settings
           </NavLinks>

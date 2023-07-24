@@ -13,9 +13,12 @@ import {
   readTextFile,
 } from '@tauri-apps/api/fs';
 import { ScrollArea, Text } from '@mantine/core';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { documentDir, join } from '@tauri-apps/api/path';
 import { ITableDataProps } from '../common/Table/types';
+import { appContext } from '../../utils/Context';
+import { useNavigate } from 'react-router-dom';
+import useDashboard from './hook/useDashboard';
 
 const documentDirPath = await documentDir();
 const a = await join(documentDirPath, 'visioMark');
@@ -24,10 +27,34 @@ const entries = await readDir('visioMark', {
   dir: BaseDirectory.Document,
   recursive: true,
 });
+console.log('🚀 ~ file: dashboard.tsx:29 ~ entries:', entries);
 
 const Dashboard = () => {
+  const { getFilenamesFromLocalStorage } = useDashboard();
   const [opened, { open, close }] = useDisclosure(false);
   const [allFiles, setAllFiles] = useState<FileEntry[]>([]);
+  const { forPreview, responseData } = useContext(appContext);
+  const navigate = useNavigate();
+
+  const recentFiles = getFilenamesFromLocalStorage();
+
+  function findMatches() {
+    const matches = recentFiles.map((itemName) => {
+      // Find all items in 'a' that have a matching 'name' property
+      return entries.filter((item) => item.name === itemName);
+    });
+
+    return matches.flat();
+  }
+
+  const recentEntries = findMatches();
+  console.log('🚀 ~ file: dashboard.tsx:51 ~ Dashboard ~ a:', a);
+
+  // useEffect(() => {
+  //   if (forPreview) {
+  //     navigate('/preview', { state: responseData });
+  //   }
+  // }, [forPreview, responseData, navigate]);
 
   (function processEntries(entries: FileEntry[]) {
     for (const entry of entries) {
@@ -89,7 +116,7 @@ const Dashboard = () => {
             }}
           >
             <RFContent>
-              {firstFive.map((entry, index) => (
+              {recentEntries.map((entry, index) => (
                 <SharedCard
                   key={index}
                   name_of_file={entry.name}

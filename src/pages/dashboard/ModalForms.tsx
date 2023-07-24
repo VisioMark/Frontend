@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import ModalComp from '../common/Modal/Modal';
 import { LogoWrapper } from '../common/components/layoutStyles';
 import { UserFormProvider, useUserForm } from '../common/form-context';
@@ -8,21 +7,16 @@ import GenericInput from '../common/components/input';
 import GenericBtn from '../common/components/button';
 import { THEME } from '../../appTheme';
 import { SelectInput } from '../common/components/SelectInput';
-import { useContext, useEffect, useState } from 'react';
-import { dialog } from '@tauri-apps/api';
+import { useState } from 'react';
 import { Constants } from '../../utils/constants';
 import { Group, Loader, Stepper, Badge, Box, ScrollArea } from '@mantine/core';
 import MasterKeyPage from '../master-key';
 import { schema } from './schema';
-import { useMutation } from 'react-query';
 import {
   isPermissionGranted,
   requestPermission,
-  sendNotification,
 } from '@tauri-apps/api/notification';
-import AppAlert from '../common/notification/alert';
-import { useNavigate } from 'react-router-dom';
-import { appContext } from '../../utils/Context';
+import useDashboard from './hook/useDashboard';
 
 let permissionGranted = await isPermissionGranted();
 if (!permissionGranted) {
@@ -31,14 +25,16 @@ if (!permissionGranted) {
 }
 
 const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
-  const [all, setAll] = useState<{ [key: number]: string }>({});
-  const [selectedFolder, setSelectedFolder] = useState<string | string[]>('');
-  const [error, setError] = useState<boolean>(false);
-  const a = selectedFolder.toString().replace(/\\/g, '/');
   const [active, setActive] = useState(0);
-  const [alert, setAlert] = useState(false);
 
-  const { setResponseData } = useContext(appContext);
+  const {
+    all,
+    setAll,
+    handleFolderSelect,
+    mutate,
+    selectedFolder,
+    validateData,
+  } = useDashboard();
 
   function DisplayDivMultipleTimes() {
     const divs = [];
@@ -64,18 +60,6 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
-  const handleFolderSelect = async () => {
-    const result = await dialog.open({
-      multiple: false,
-      directory: true,
-      title: 'Select folder with scanned images',
-    });
-
-    if (result) {
-      setSelectedFolder(result);
-    }
-  };
-
   const form: UseFormReturnType<unknown, (values: unknown) => typeof schema> =
     useUserForm({
       validate: zodResolver(schema),
@@ -88,70 +72,6 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
         lecturer_name: '',
       },
     });
-
-  const navigate = useNavigate();
-
-  const mutate = useMutation({
-    mutationFn: async (data: { [key: string]: string }) => {
-      await fetch(`${Constants.API_URL}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          image_dir: a,
-          no_of_questions: data['number_of_questions'],
-          course_code: data['course_code'],
-          master_key: { ...all },
-        }),
-      })
-        .then((response) => {
-          // if (permissionGranted) {
-          //   sendNotification({
-          //     title: 'VisioMark',
-          //     body: 'visioMark is awesome!',
-          //   });
-          // }
-          navigate(`${Constants.PATHS.preview}`, {
-            state: { data: response },
-          });
-          AppAlert({
-            title: 'Succes',
-            color: `${THEME.colors.button.primary}`,
-            message: 'Marked Successfully!! 😁',
-          });
-
-          return response.json();
-        })
-        .then((data) => setResponseData(data))
-        .catch((err) => setError(err));
-    },
-    onSuccess: (data) => {
-      console.log('success');
-    },
-    onError: (error) => {
-      console.log('Error', error);
-    },
-  });
-
-  if (error) {
-    AppAlert({
-      title: 'ERROR',
-      message: 'Check if you filled all inputs 🤦🏾‍♂️',
-      color: 'red',
-    });
-  }
-  const validateData = (data: any) => {
-    try {
-      schema.parse(data);
-      setError(false);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        setError(true);
-        console.error('Validation error:', error);
-      }
-    }
-  };
 
   return (
     <>

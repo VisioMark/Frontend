@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { appContext } from '../utils/Context';
+import { appContext } from '../../../utils/Context';
 
 const useStatistics = () => {
   const { responseData } = useContext(appContext);
