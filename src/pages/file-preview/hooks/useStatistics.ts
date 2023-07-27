@@ -1,5 +1,9 @@
 import { useContext } from 'react';
 import { appContext } from '../../../utils/Context';
+import {
+  calculateDifficultyLevels,
+  countOccurenceofDifficultyLevel,
+} from '../../../utils/helper';
 
 const useStatistics = () => {
   const { responseData } = useContext(appContext);
@@ -11,26 +15,68 @@ const useStatistics = () => {
   };
   const scores = getScores();
 
-  const numberOfQuestions = 20;
+  const numberOfQuestions = responseData[0].predictions.split(' ').length;
+  const listOfDifficultyLevel = calculateDifficultyLevels(
+    scores,
+    numberOfQuestions
+  );
 
-  // Calculate the average score
+  const maxScore = Math.max(...scores);
+  const minScore = Math.min(...scores);
+
   const averageScore =
     scores.reduce((sum, score) => sum + score, 0) / scores.length;
 
-  // Calculate the variance
   const variance =
     scores.reduce((sum, score) => sum + Math.pow(score - averageScore, 2), 0) /
     scores.length;
 
-  // Calculate the item variance (variance of each question)
   const itemVariance = variance / numberOfQuestions;
 
-  // Calculate the total variance
   const totalVariance =
     scores.reduce((sum, score) => sum + Math.pow(score - averageScore, 2), 0) /
     (scores.length - 1);
 
-  // Calculate Cronbach's alpha
+  interface StatsItem {
+    title: string;
+    icon: 'average' | 'totalVariance' | 'minScore' | 'maxScore';
+    value: string | number;
+    diff: number;
+  }
+
+  const summaryData: StatsItem[] = [
+    {
+      title: 'Average Score',
+      icon: 'average',
+      value: averageScore.toFixed(2),
+      diff: 34,
+    },
+    {
+      title: 'Total Variance',
+      icon: 'totalVariance',
+      value: totalVariance.toFixed(2),
+      diff: -13,
+    },
+    {
+      title: 'Min Score',
+      icon: 'minScore',
+      value: minScore,
+      diff: 18,
+    },
+    {
+      title: 'Max Score',
+      icon: 'maxScore',
+      value: maxScore,
+      diff: -30,
+    },
+  ];
+
+  const a = {
+    total: '345,765',
+    diff: 18,
+    data: countOccurenceofDifficultyLevel(listOfDifficultyLevel),
+  };
+
   const cronbachAlpha =
     (numberOfQuestions * itemVariance) /
     (itemVariance + (numberOfQuestions - 1) * totalVariance);
@@ -40,6 +86,12 @@ const useStatistics = () => {
     averageScore,
     cronbachAlpha,
     totalVariance,
+    maxScore,
+    minScore,
+    scores,
+    summaryData,
+    numberOfQuestions,
+    a,
   };
 };
 

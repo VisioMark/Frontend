@@ -39,8 +39,6 @@ const Dashboard = () => {
     const matches = recentFiles.map((itemName) => {
       const matchedItems = entries.filter((item) => item.name === itemName);
       if (matchedItems.length === 0) {
-        //  const storedData =
-        //    JSON.parse(localStorage.getItem('recentFileNames')) || [];
         const filteredData = recentFiles.filter((item) => item !== itemName);
         localStorage.setItem('recentFileNames', JSON.stringify(filteredData));
       }

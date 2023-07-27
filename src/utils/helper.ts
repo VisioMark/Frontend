@@ -47,11 +47,11 @@ const checkImageCorruption = async (
     img.src = `${imageDir}/${imageName}`;
 
     img.onerror = () => {
-      resolve(true); // Image is corrupted or failed to load
+      resolve(true);
     };
 
     img.onload = () => {
-      resolve(false); // Image loaded successfully (not corrupted)
+      resolve(false);
     };
   });
 };
@@ -93,3 +93,76 @@ export const readCSVFile = async ({
     return;
   }
 };
+
+export function convertToCountedObjects(
+  numbers: number[]
+): { value: number; count: number }[] {
+  const countedObjects = numbers.reduce<{ [key: number]: number }>(
+    (countMap, num) => {
+      countMap[num] = (countMap[num] || 0) + 1;
+      return countMap;
+    },
+    {}
+  );
+
+  return Object.entries(countedObjects).map(([value, count]) => ({
+    value: Number(value),
+    count,
+  }));
+}
+
+function generateRandomHex(length: number): string {
+  let result = '';
+  const characters = '0123456789ABCDEF';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+
+  return result;
+}
+
+export function isString(value: any): value is string {
+  return typeof value === 'string';
+}
+
+export function countOccurenceofDifficultyLevel(
+  difficultyLevels: string[]
+): { label: string; count: number; color: string; part: number }[] {
+  const countedObjects = difficultyLevels.reduce<{ [key: string]: number }>(
+    (countMap, level) => {
+      countMap[level] = (countMap[level] || 0) + 1;
+      return countMap;
+    },
+    {}
+  );
+
+  return Object.entries(countedObjects).map(([value, count]) => ({
+    label: value,
+    count,
+    part: (count / difficultyLevels.length) * 100,
+    color: `#${generateRandomHex(6)}`,
+  }));
+}
+
+export function calculateDifficultyLevels(
+  scores: number[],
+  totalPossibleScore: number
+): string[] {
+  const numStudents = scores.length;
+  const totalScore = scores.reduce((sum, score) => sum + score, 0);
+  const percentageCorrect =
+    (totalScore / (numStudents * totalPossibleScore)) * 100;
+
+  let difficultyLevel = '';
+  if (percentageCorrect >= 80) {
+    difficultyLevel = 'Easy';
+  } else if (percentageCorrect >= 50) {
+    difficultyLevel = 'Moderate';
+  } else {
+    difficultyLevel = 'Difficult';
+  }
+
+  return Array(scores.length).fill(difficultyLevel);
+}

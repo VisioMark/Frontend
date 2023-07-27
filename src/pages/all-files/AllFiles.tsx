@@ -17,15 +17,15 @@ const AllFiles = () => {
     window.location.reload();
   };
 
-  (function processEntries(entries: FileEntry[]) {
-    for (const entry of entries) {
-      console.log(entry.children);
-      if (entry.children) {
-        setAllFiles((prev) => [...prev, entry]);
-        processEntries(entries);
-      }
-    }
-  })(entries);
+  // (function processEntries(entries: FileEntry[]) {
+  //   for (const entry of entries) {
+  //     console.log(entry.children);
+  //     if (entry.children) {
+  //       setAllFiles((prev) => [...prev, entry]);
+  //       processEntries(entries);
+  //     }
+  //   }
+  // })(entries);
 
   return (
     <Layout>
