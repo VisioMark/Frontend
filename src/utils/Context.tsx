@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 type ResponseData = {
   file_name: string;
@@ -6,6 +6,19 @@ type ResponseData = {
   score: number;
   'index number': string;
 }[];
+
+export function usePersistentState<T>(key: string, initialState: T) {
+  const [state, setState] = useState<T>(() => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : initialState;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [key, state]);
+
+  return [state, setState] as const;
+}
 
 interface IAppContext {
   responseData: ResponseData;
@@ -22,7 +35,10 @@ export const appContext = createContext<IAppContext>({
 });
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [responseData, setResponseData] = useState<ResponseData>([]);
+  const [responseData, setResponseData] = usePersistentState<ResponseData>(
+    'responseData',
+    []
+  );
   const [forPreview, setForPreview] = useState(false);
 
   const value = {

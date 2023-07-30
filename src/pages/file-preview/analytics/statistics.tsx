@@ -8,7 +8,8 @@ import { StatsSegments } from './components/StatsWithSegment';
 import styled from 'styled-components';
 
 const Statistics = () => {
-  const { summaryData, scores, a, numberOfQuestions } = useStatistics();
+  const { summaryData, scores, a, numberOfQuestions, numberOfStudents } =
+    useStatistics();
   return (
     <Layout>
       <div
@@ -30,12 +31,20 @@ const Statistics = () => {
           >
             STATISTICS
           </Text>
-          <Badge
-            variant="gradient"
-            gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}
-          >
-            {numberOfQuestions} Questions
-          </Badge>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Badge
+              variant="gradient"
+              gradient={{ from: '#127474', to: '#ec69a6', deg: 35 }}
+            >
+              {numberOfStudents} sheets
+            </Badge>
+            <Badge
+              variant="gradient"
+              gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}
+            >
+              {numberOfQuestions} Questions
+            </Badge>
+          </div>
         </TitleStyle>
         <ScrollArea
           style={{

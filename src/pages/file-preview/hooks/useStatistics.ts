@@ -15,6 +15,8 @@ const useStatistics = () => {
   };
   const scores = getScores();
 
+  const numberOfStudents = scores.length;
+
   const numberOfQuestions = responseData[0].predictions.split(' ').length;
   const listOfDifficultyLevel = calculateDifficultyLevels(
     scores,
@@ -91,6 +93,7 @@ const useStatistics = () => {
     scores,
     summaryData,
     numberOfQuestions,
+    numberOfStudents,
     a,
   };
 };
