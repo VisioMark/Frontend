@@ -12,17 +12,7 @@ import { Constants } from '../../utils/constants';
 import { Group, Loader, Stepper, Badge, Box, ScrollArea } from '@mantine/core';
 import MasterKeyPage from '../master-key';
 import { schema } from './schema';
-import {
-  isPermissionGranted,
-  requestPermission,
-} from '@tauri-apps/api/notification';
 import useDashboard from './hook/useDashboard';
-
-let permissionGranted = await isPermissionGranted();
-if (!permissionGranted) {
-  const permission = await requestPermission();
-  permissionGranted = permission === 'granted';
-}
 
 const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
   const [active, setActive] = useState(0);

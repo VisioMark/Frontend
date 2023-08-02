@@ -1,69 +1,7 @@
-import fs from 'fs';
 import { useContext, useState } from 'react';
 import { appContext } from './Context';
 import { BaseDirectory, readTextFile } from '@tauri-apps/api/fs';
 import { ITableDataProps } from '../pages/common/Table/types';
-
-export const checkImagesForCorruption = async (
-  imageDir: string
-): Promise<string[]> => {
-  const imageNames = await fetchImageNames(imageDir);
-  const corruptedImagesList: string[] = [];
-
-  for (const imageName of imageNames) {
-    const isCorrupted = await checkImageCorruption(imageName, imageDir);
-    if (isCorrupted) {
-      corruptedImagesList.push(imageName);
-    }
-  }
-
-  return corruptedImagesList;
-};
-
-const fetchImageNames = (directory: string): Promise<string[]> => {
-  return new Promise<string[]>((resolve, reject) => {
-    fs.readdir(directory, (err, files) => {
-      if (err) {
-        reject(err); // Error occurred while reading the directory
-      } else {
-        const imageNames = files.filter((file) => {
-          const extension = file.split('.').pop()?.toLowerCase();
-          return (
-            extension === 'jpg' || extension === 'jpeg' || extension === 'png'
-          ); // Add more supported extensions if needed
-        });
-        resolve(imageNames);
-      }
-    });
-  });
-};
-
-const checkImageCorruption = async (
-  imageName: string,
-  imageDir: string
-): Promise<boolean> => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.src = `${imageDir}/${imageName}`;
-
-    img.onerror = () => {
-      resolve(true);
-    };
-
-    img.onload = () => {
-      resolve(false);
-    };
-  });
-};
-
-const ImageChecker = ({ imageDir }: { imageDir: string }) => {
-  const [corruptedImages, setCorruptedImages] = useState<string[]>([]);
-
-  const handleCheckImages = async () => {
-    const corruptedImagesList = await checkImagesForCorruption(imageDir);
-    setCorruptedImages(corruptedImagesList);
-  };
-};
 
 export const readCSVFile = async ({
   name_of_file,
@@ -149,20 +87,49 @@ export function countOccurenceofDifficultyLevel(
 export function calculateDifficultyLevels(
   scores: number[],
   totalPossibleScore: number
-): string[] {
-  const numStudents = scores.length;
-  const totalScore = scores.reduce((sum, score) => sum + score, 0);
-  const percentageCorrect =
-    (totalScore / (numStudents * totalPossibleScore)) * 100;
+) {
+  const easyScore = (80 / 100) * totalPossibleScore;
+  const moderateScore = (50 / 100) * totalPossibleScore;
 
-  let difficultyLevel = '';
-  if (percentageCorrect >= 80) {
-    difficultyLevel = 'Easy';
-  } else if (percentageCorrect >= 50) {
-    difficultyLevel = 'Moderate';
-  } else {
-    difficultyLevel = 'Difficult';
-  }
+  let easyCount = 0;
+  let moderateCount = 0;
+  let difficultCount = 0;
 
-  return Array(scores.length).fill(difficultyLevel);
+  scores.map((score) => {
+    if (score >= easyScore) {
+      easyCount++;
+    } else if (score >= moderateScore) {
+      moderateCount++;
+    } else {
+      difficultCount++;
+    }
+  });
+
+  const totalCount = easyCount + moderateCount + difficultCount;
+  const easyPart = Math.round((easyCount / totalCount) * 100);
+  const moderatePart = Math.round((moderateCount / totalCount) * 100);
+  const difficultPart = Math.round((difficultCount / totalCount) * 100);
+
+  const data = [
+    {
+      label: 'Easy',
+      count: easyCount,
+      part: easyPart,
+      color: `#${generateRandomHex(6)}`,
+    },
+    {
+      label: 'Moderate',
+      count: moderateCount,
+      part: moderatePart,
+      color: `#${generateRandomHex(6)}`,
+    },
+    {
+      label: 'Difficult',
+      count: difficultCount,
+      part: difficultPart,
+      color: `#${generateRandomHex(6)}`,
+    },
+  ];
+
+  return data;
 }

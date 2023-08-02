@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import { THEME } from '../../appTheme';
 import SharedCard from '../common/components/Card/card';
 import Layout from '../common/components/Layout';
@@ -6,22 +5,10 @@ import GenericBtn from '../common/components/button';
 import { RFContent, RecentFiles, RequestBtn } from './styles';
 import { useDisclosure } from '@mantine/hooks';
 import Modalforms from './ModalForms';
-import {
-  readDir,
-  BaseDirectory,
-  FileEntry,
-  readTextFile,
-} from '@tauri-apps/api/fs';
+import { readDir, BaseDirectory } from '@tauri-apps/api/fs';
 import { ScrollArea, Text } from '@mantine/core';
-import { useContext, useEffect, useState } from 'react';
-import { documentDir, join } from '@tauri-apps/api/path';
-import { ITableDataProps } from '../common/Table/types';
-import { appContext } from '../../utils/Context';
-import { useNavigate } from 'react-router-dom';
-import useDashboard from './hook/useDashboard';
 
-const documentDirPath = await documentDir();
-const a = await join(documentDirPath, 'visioMark');
+import useDashboard from './hook/useDashboard';
 
 const entries = await readDir('visioMark', {
   dir: BaseDirectory.Document,
@@ -31,17 +18,16 @@ const entries = await readDir('visioMark', {
 const Dashboard = () => {
   const { getFilenamesFromLocalStorage } = useDashboard();
   const [opened, { open, close }] = useDisclosure(false);
-  const [allFiles, setAllFiles] = useState<FileEntry[]>([]);
 
   const recentFiles = getFilenamesFromLocalStorage();
 
   function findMatches() {
     const matches = recentFiles.map((itemName) => {
       const matchedItems = entries.filter((item) => item.name === itemName);
-      if (matchedItems.length === 0) {
-        const filteredData = recentFiles.filter((item) => item !== itemName);
-        localStorage.setItem('recentFileNames', JSON.stringify(filteredData));
-      }
+      // if (matchedItems.length === 0) {
+      //   const filteredData = recentFiles.filter((item) => item !== itemName);
+      //   localStorage.setItem('recentFileNames', JSON.stringify(filteredData));
+      // }
       return matchedItems;
     });
 
@@ -49,21 +35,6 @@ const Dashboard = () => {
   }
 
   const recentEntries = findMatches();
-
-  // useEffect(() => {
-  //   if (forPreview) {
-  //     navigate('/preview', { state: responseData });
-  //   }
-  // }, [forPreview, responseData, navigate]);
-
-  (function processEntries(entries: FileEntry[]) {
-    for (const entry of entries) {
-      if (entry.children) {
-        setAllFiles((prev) => [...prev, entry]);
-        processEntries(entry.children);
-      }
-    }
-  })(entries);
 
   return (
     <Layout>

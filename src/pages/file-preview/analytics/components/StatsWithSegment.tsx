@@ -97,8 +97,8 @@ export function StatsSegments({ total, diff, data }: StatsSegmentsProps) {
       </Group>
 
       <Text c="dimmed" fz="sm">
-        Calculates the difficulty level of each question based on the percentage
-        of students who answered it correctly.
+        Calculates the difficulty level of the questions based on the percentage
+        of student scores.
       </Text>
 
       <Progress

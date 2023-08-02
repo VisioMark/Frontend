@@ -74,9 +74,9 @@ const useStatistics = () => {
   ];
 
   const a = {
-    total: '345,765',
+    total: `Total: ${numberOfStudents}`,
     diff: 18,
-    data: countOccurenceofDifficultyLevel(listOfDifficultyLevel),
+    data: listOfDifficultyLevel,
   };
 
   const cronbachAlpha =

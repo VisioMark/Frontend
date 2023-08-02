@@ -16,8 +16,7 @@ const useDashboard = () => {
   const [selectedFolder, setSelectedFolder] = useState<string | string[]>('');
   const folderPath = selectedFolder.toString().replace(/\\/g, '/');
   const navigate = useNavigate();
-  const { setResponseData, responseData, setForPreview } =
-    useContext(appContext);
+  const { setResponseData, setForPreview } = useContext(appContext);
 
   const getFilenamesFromLocalStorage = () => {
     const getStoredDataAsString = localStorage.getItem('recentFileNames');
@@ -69,11 +68,14 @@ const useDashboard = () => {
         }
 
         const responseData: [string, ITableDataProps[]] = await response.json();
+        console.log(
+          '🚀 ~ file: useDashboard.ts:72 ~ mutationFn: ~ responseData:',
+          responseData
+        );
 
         if (response.ok) {
           // close();
           storeToLocalStorage(responseData[0]);
-          window.location.reload();
           setResponseData(responseData[1]);
           setForPreview(true);
           AppAlert({
@@ -81,6 +83,7 @@ const useDashboard = () => {
             color: `${THEME.colors.button.primary}`,
             message: 'Marked Successfully!! 😁',
           });
+          window.location.reload();
         }
 
         return responseData;
