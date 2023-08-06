@@ -68,10 +68,6 @@ const useDashboard = () => {
         }
 
         const responseData: [string, ITableDataProps[]] = await response.json();
-        console.log(
-          '🚀 ~ file: useDashboard.ts:72 ~ mutationFn: ~ responseData:',
-          responseData
-        );
 
         if (response.ok) {
           // close();

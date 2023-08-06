@@ -73,6 +73,7 @@ const Modalforms = ({ open, close }: { open: boolean; close: () => void }) => {
         {mutate.isLoading ? (
           <LoaderWrapper>
             <Loader />
+            <p>Good things take time!!</p>
           </LoaderWrapper>
         ) : (
           <UserFormProvider form={form}>

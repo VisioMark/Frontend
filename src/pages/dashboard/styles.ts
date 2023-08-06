@@ -39,6 +39,8 @@ export const ModalInputs = styled.div`
 
 export const LoaderWrapper = styled.div`
   display: flex;
+  gap: 5px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;

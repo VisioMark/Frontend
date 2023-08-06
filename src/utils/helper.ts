@@ -83,53 +83,48 @@ export function countOccurenceofDifficultyLevel(
     color: `#${generateRandomHex(6)}`,
   }));
 }
+interface DifficultyLevel {
+  label: string;
+  count: number;
+  part: number;
+  color: string;
+}
 
 export function calculateDifficultyLevels(
   scores: number[],
   totalPossibleScore: number
 ) {
-  const easyScore = (80 / 100) * totalPossibleScore;
-  const moderateScore = (50 / 100) * totalPossibleScore;
+  const easyScore = 0.8 * totalPossibleScore;
+  const moderateScore = 0.5 * totalPossibleScore;
 
-  let easyCount = 0;
-  let moderateCount = 0;
-  let difficultCount = 0;
+  const counts: { [label: string]: number } = {
+    easy: 0,
+    moderate: 0,
+    difficult: 0,
+  };
 
-  scores.map((score) => {
+  scores.forEach((score) => {
     if (score >= easyScore) {
-      easyCount++;
+      counts.easy++;
     } else if (score >= moderateScore) {
-      moderateCount++;
+      counts.moderate++;
     } else {
-      difficultCount++;
+      counts.difficult++;
     }
   });
 
-  const totalCount = easyCount + moderateCount + difficultCount;
-  const easyPart = Math.round((easyCount / totalCount) * 100);
-  const moderatePart = Math.round((moderateCount / totalCount) * 100);
-  const difficultPart = Math.round((difficultCount / totalCount) * 100);
+  const totalCount = scores.length;
 
-  const data = [
-    {
-      label: 'Easy',
-      count: easyCount,
-      part: easyPart,
-      color: `#${generateRandomHex(6)}`,
-    },
-    {
-      label: 'Moderate',
-      count: moderateCount,
-      part: moderatePart,
-      color: `#${generateRandomHex(6)}`,
-    },
-    {
-      label: 'Difficult',
-      count: difficultCount,
-      part: difficultPart,
-      color: `#${generateRandomHex(6)}`,
-    },
-  ];
+  const data: DifficultyLevel[] = Object.entries(counts).map(
+    ([label, count], index) => {
+      return {
+        label,
+        count,
+        part: Math.round((count / totalCount) * 100),
+        color: `#${generateRandomHex(6)}`,
+      };
+    }
+  );
 
   return data;
 }
